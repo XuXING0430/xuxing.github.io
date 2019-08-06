@@ -13,23 +13,20 @@
   <!-- PACE Progress Bar START -->
 
   
-  <title>解决java.lang.unsatisfiedlinkerror：java.library.path中没有rxtxserial加载时抛出gnu.io.rxtxcommdriver错误 | XuXing&#39;s blog</title>
+  <title>javasocket实现向云服务器传输文件 | XuXing&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
   
-  <meta name="description" content="在使用Java接收串口数据的时候，需要导入有关的jar包和配置文件。如果报这个错误，是因为jar包和配置文件没有放好的原因。解决：要把.rxtxParallel.dll、rxtxSerial.dll拷贝到 1D:\develop\Java\jdk1.7.0_72\bin  ​        注意：是jdk下面的bin文件夹，不是jre  需要什么版本的配置文件，看你的JDK，如果是32位的">
-<meta property="og:type" content="article">
-<meta property="og:title" content="解决java.lang.UnsatisfiedLinkError：java.library.path中没有rxtxSerial加载时抛出gnu.io.RXTXCommDriver错误">
-<meta property="og:url" content="http://yoursite.com/2019/08/06/解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="JavaSocket实现向云服务器传输文件">
+<meta property="og:url" content="http://yoursite.com/2019/08/06/JavaSocket实现向云服务器传输文件/index.html">
 <meta property="og:site_name" content="XuXing&#39;s blog">
-<meta property="og:description" content="在使用Java接收串口数据的时候，需要导入有关的jar包和配置文件。如果报这个错误，是因为jar包和配置文件没有放好的原因。解决：要把.rxtxParallel.dll、rxtxSerial.dll拷贝到 1D:\develop\Java\jdk1.7.0_72\bin  ​        注意：是jdk下面的bin文件夹，不是jre  需要什么版本的配置文件，看你的JDK，如果是32位的">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-06T00:08:11.835Z">
+<meta property="og:updated_time" content="2019-08-06T00:34:52.666Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解决java.lang.UnsatisfiedLinkError：java.library.path中没有rxtxSerial加载时抛出gnu.io.RXTXCommDriver错误">
-<meta name="twitter:description" content="在使用Java接收串口数据的时候，需要导入有关的jar包和配置文件。如果报这个错误，是因为jar包和配置文件没有放好的原因。解决：要把.rxtxParallel.dll、rxtxSerial.dll拷贝到 1D:\develop\Java\jdk1.7.0_72\bin  ​        注意：是jdk下面的bin文件夹，不是jre  需要什么版本的配置文件，看你的JDK，如果是32位的">
+<meta name="twitter:title" content="JavaSocket实现向云服务器传输文件">
   
     <link rel="alternate" href="/atom.xml" title="XuXing&#39;s blog" type="application/atom+xml">
   
@@ -167,7 +164,7 @@ var themeMenus = {};
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-JavaSocket实现向云服务器传输文件" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -175,7 +172,7 @@ var themeMenus = {};
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      解决java.lang.UnsatisfiedLinkError：java.library.path中没有rxtxSerial加载时抛出gnu.io.RXTXCommDriver错误
+      JavaSocket实现向云服务器传输文件
     </h1>
   
 
@@ -183,8 +180,8 @@ var themeMenus = {};
     
     <div class="article-meta">
       
-	Posted on <a href="/2019/08/06/解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误/" class="article-date">
-	  <time datetime="2019-08-06T00:06:45.000Z" itemprop="datePublished">August 6, 2019</time>
+	Posted on <a href="/2019/08/06/JavaSocket实现向云服务器传输文件/" class="article-date">
+	  <time datetime="2019-08-06T00:34:52.000Z" itemprop="datePublished">August 6, 2019</time>
 	</a>
 
       
@@ -195,11 +192,7 @@ var themeMenus = {};
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>﻿   在使用Java接收串口数据的时候，需要导入有关的jar包和配置文件。<br>如果报这个错误，是因为jar包和配置文件没有放好的原因。<br><em>解决</em>：要把.rxtxParallel.dll、rxtxSerial.dll拷贝到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\develop\Java\jdk1.7.0_72\bin</span><br></pre></td></tr></table></figure>
-
-<p>​        <strong>注意：是jdk下面的bin文件夹，不是jre</strong><br>  需要什么版本的配置文件，看你的JDK，如果是32位的就下载32位的，如果是64位的就下载64位的，一定要对应好，否则也会报错。下载地址如下：<br><a href="http://rxtx.qbang.org/wiki/index.php/Download" target="_blank" rel="noopener">官网下载地址</a></p>
-
+        
       
     </div>
     <footer class="entry-meta entry-footer">
@@ -251,19 +244,10 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2019/08/06/JavaSocket实现向云服务器传输文件/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          JavaSocket实现向云服务器传输文件
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/05/解决在cmd编译java文件后，提示找不到或无法加载主类/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/06/解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">解决在cmd编译java文件后，提示找不到或无法加载主类</div>
+      <div class="article-nav-title">解决java.lang.UnsatisfiedLinkError：java.library.path中没有rxtxSerial加载时抛出gnu.io.RXTXCommDriver错误</div>
     </a>
   
 </nav>
