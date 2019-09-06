@@ -157,6 +157,52 @@ var themeMenus = {};
         
           <section id="main">
   
+    <article id="post-算法图解第二章笔记：选择排序（java版）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/09/06/算法图解第二章笔记：选择排序（java版）/">算法图解第二章笔记：选择排序（java版）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2019/09/06/算法图解第二章笔记：选择排序（java版）/" class="article-date">
+	  <time datetime="2019-09-06T00:40:56.000Z" itemprop="datePublished">September 6, 2019</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="数组："><a href="#数组：" class="headerlink" title="数组："></a>数组：</h3><h4 id="使用数组意味着所有待办事项都在内存中都是相连的（紧靠在一起的）"><a href="#使用数组意味着所有待办事项都在内存中都是相连的（紧靠在一起的）" class="headerlink" title="使用数组意味着所有待办事项都在内存中都是相连的（紧靠在一起的）"></a>使用数组意味着所有待办事项都在内存中都是相连的（紧靠在一起的）</h4><h4 id="优势：需要随机读取元素时，数组的效率很高。"><a href="#优势：需要随机读取元素时，数组的效率很高。" class="headerlink" title="优势：需要随机读取元素时，数组的效率很高。"></a>优势：需要随机读取元素时，数组的效率很高。</h4><h3 id="链表："><a href="#链表：" class="headerlink" title="链表："></a>链表：</h3><h4 id="链表中的元素可以存储在内存的任何地方，链表的每个元素都存储了下一个元素的地址，从而使一些系列的随机的内存地址串在一起。"><a href="#链表中的元素可以存储在内存的任何地方，链表的每个元素都存储了下一个元素的地址，从而使一些系列的随机的内存地址串在一起。" class="headerlink" title="链表中的元素可以存储在内存的任何地方，链表的每个元素都存储了下一个元素的地址，从而使一些系列的随机的内存地址串在一起。"></a>链表中的元素可以存储在内存的任何地方，链表的每个元素都存储了下一个元素的地址，从而使一些系列的随机的内存地址串在一起。</h4><h4 id="优势：在插入元素方面。需要同时读取所有元素时，链表的效率很高。"><a href="#优势：在插入元素方面。需要同时读取所有元素时，链表的效率很高。" class="headerlink" title="优势：在插入元素方面。需要同时读取所有元素时，链表的效率很高。"></a>优势：在插入元素方面。需要同时读取所有元素时，链表的效率很高。</h4><h4 id="局限：需要跳跃，链表的效率很低。"><a href="#局限：需要跳跃，链表的效率很低。" class="headerlink" title="局限：需要跳跃，链表的效率很低。"></a>局限：需要跳跃，链表的效率很低。</h4><h4 id="选择排序code："><a href="#选择排序code：" class="headerlink" title="选择排序code："></a>选择排序code：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public class SelectionSort_1 &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">         //测试数组</span><br><span class="line">		int[] testArr = &#123;5,3,6,2,10&#125;;</span><br><span class="line">		selectionSort(testArr);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	public static void selectionSort(int[] arr)&#123;</span><br><span class="line">		 for (int i = 0; i &lt; arr.length; i++) &#123;  </span><br><span class="line">			   int lowerIndex = i;  </span><br><span class="line">			   // 找出最小的一个索引  </span><br><span class="line">			   for (int j = i + 1; j &lt; arr.length; j++) &#123;  </span><br><span class="line">			    if (arr[j] &lt; arr[lowerIndex]) &#123;  </span><br><span class="line">			     lowerIndex = j;  </span><br><span class="line">			    &#125;  </span><br><span class="line">			   &#125;  </span><br><span class="line">			   //交换元素的位置  </span><br><span class="line">			   int temp = arr[i];  </span><br><span class="line">			   arr[i] = arr[lowerIndex];  </span><br><span class="line">			   arr[lowerIndex] = temp;  </span><br><span class="line">			  &#125;  </span><br><span class="line">			  for (int i : arr) &#123;  </span><br><span class="line">			   System.out.print(i + &quot; &quot;);  </span><br><span class="line">			  &#125;  </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出为："><a href="#输出为：" class="headerlink" title="输出为："></a>输出为：</h4><p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/9.png?raw=true" alt="Image"></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
+  
     <article id="post-win10完整Tensorflow-GPU环境搭建教程-附CUDA-cuDNN安装过程"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -737,6 +783,18 @@ var themeMenus = {};
               <div class="widget-entry-summary" style="margin: 0;">
             
 
+              <h6 style="margin: 0;"><a href="/2019/09/06/算法图解第二章笔记：选择排序（java版）/">算法图解第二章笔记：选择排序（java版）</a></h6>
+              <span>September 6, 2019</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
               <h6 style="margin: 0;"><a href="/2019/09/04/win10完整Tensorflow-GPU环境搭建教程-附CUDA-cuDNN安装过程/">win10完整Tensorflow-GPU环境搭建教程(附CUDA+cuDNN安装过程)</a></h6>
               <span>September 4, 2019</span>
             </div>
@@ -791,18 +849,6 @@ var themeMenus = {};
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/08/06/解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误/">解决java.lang.UnsatisfiedLinkError：java.library.path中没有rxtxSerial加载时抛出gnu.io.RXTXCommDriver错误</a></h6>
-              <span>August 6, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -821,7 +867,7 @@ var themeMenus = {};
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
