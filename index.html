@@ -157,6 +157,87 @@ var themeMenus = {};
         
           <section id="main">
   
+    <article id="post-算法图解第三章笔记：递归-java版"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/09/06/算法图解第三章笔记：递归-java版/">算法图解第三章笔记：递归(java版)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2019/09/06/算法图解第三章笔记：递归-java版/" class="article-date">
+	  <time datetime="2019-09-06T13:33:15.000Z" itemprop="datePublished">September 6, 2019</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="3-1-递归"><a href="#3-1-递归" class="headerlink" title="3.1 递归"></a>3.1 递归</h4><h4 id="案例：寻找祖母的钥匙。"><a href="#案例：寻找祖母的钥匙。" class="headerlink" title="案例：寻找祖母的钥匙。"></a>案例：寻找祖母的钥匙。</h4><h4 id="钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？"><a href="#钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？" class="headerlink" title="钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？"></a>钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？</h4><p>方法一：</p>
+<ol>
+<li>创建一个要查找的盒子堆</li>
+<li>从盒子中取出一个盒子，在里面找</li>
+<li>如果找到的是盒子，就将其加入到盒子堆中，以便以后再查找。</li>
+<li>如果找到钥匙，则大功告成</li>
+<li>回到第二步</li>
+</ol>
+<p>方法二</p>
+<ol>
+<li>检查盒子中的每样东西</li>
+<li>如果是盒子，就回到第一步</li>
+<li>如果是钥匙，则大功告成</li>
+</ol>
+<h4 id="第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。"><a href="#第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。" class="headerlink" title="第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。"></a>第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。</h4><h4 id="第二种方法使用递归—函数调用自己。"><a href="#第二种方法使用递归—函数调用自己。" class="headerlink" title="第二种方法使用递归—函数调用自己。"></a>第二种方法使用递归—函数调用自己。</h4><h4 id="两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。"><a href="#两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。" class="headerlink" title="两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。"></a>两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。</h4><h3 id="3-2-基线条件和递归条件"><a href="#3-2-基线条件和递归条件" class="headerlink" title="3.2  基线条件和递归条件"></a>3.2  基线条件和递归条件</h3><p>由于递归函数自己调用自己，因此编写这样的函数时很容易出错，进而导致无限循环。</p>
+<p>例如：假设你要编写一个像下面这样的倒计时函数：</p>
+<p>&gt;3…..2…..1</p>
+<p>可以编写的递归函数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class Code_02_BaseCase &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		countDown(3);</span><br><span class="line">	&#125;</span><br><span class="line">	/*</span><br><span class="line">	 * 未添加基线条件，所以程序会一直运行下去</span><br><span class="line">	 */</span><br><span class="line">	public static void coutDown(int i)&#123;</span><br><span class="line">		System.out.println(i);</span><br><span class="line">		coutDown(i-1);</span><br><span class="line">	&#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>当你运行时，这个函数会一直运行下去。。。。</p>
+<p>所以编写递归函数时，必须告诉它何时停止递归。正因为如此，每个递归函数都有两部分：基线条件（base case）和递归条件（recursive case）</p>
+<p>给函数countDown添加基线条件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 	设计一个倒计时3、2、1的计时器</span><br><span class="line"> * </span><br><span class="line"> * 	基线条件：</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class Code_02_BaselineCondition &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		countDown(3);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	/*</span><br><span class="line">	 * 添加基线条件</span><br><span class="line">	 */</span><br><span class="line">	public static void countDown(int i)&#123;</span><br><span class="line">		System.out.println(i);</span><br><span class="line">            //基线条件  </span><br><span class="line">		if(i &lt;= 1 )&#123;</span><br><span class="line">			return;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">              //递归条件</span><br><span class="line">              countDown_1(i-1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印输出为：</p>
+<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/10.png?raw=true" alt="Image"></p>
+<h3 id="3-3-栈"><a href="#3-3-栈" class="headerlink" title="3.3 栈"></a>3.3 栈</h3><p>​    调用栈 call stack</p>
+<p>​    有两种操作：压入（插入）和 弹出（删除并读取）</p>
+<h4 id="1-调用栈："><a href="#1-调用栈：" class="headerlink" title="1.调用栈："></a>1.调用栈：</h4><p>​    一个简单的函数，来看看计算机是如何调用栈的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 	演示计算机是如何调用栈的</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class Code_03_CallStack &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		greet(&quot;John&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void greet(String name)&#123;</span><br><span class="line">		System.out.println(&quot;hello,&quot;+ name + &quot;!&quot;);</span><br><span class="line">		greet2(name);</span><br><span class="line">		System.out.println(&quot;getting ready to say bye....&quot;);</span><br><span class="line">		bye();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void greet2(String name)&#123;</span><br><span class="line">		System.out.println(&quot;how are you, &quot;+ name + &quot;?&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void bye()&#123;</span><br><span class="line">		System.out.println(&quot;ok bye&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印输出为：</p>
+<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/11.png?raw=true" alt="Image"></p>
+<h4 id="一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。"><a href="#一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。" class="headerlink" title="一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。"></a>一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。</h4><h4 id="2-递归调用栈："><a href="#2-递归调用栈：" class="headerlink" title="2.递归调用栈："></a>2.递归调用栈：</h4><h4 id="递归函数也使用调用栈。下面是一个例子："><a href="#递归函数也使用调用栈。下面是一个例子：" class="headerlink" title="递归函数也使用调用栈。下面是一个例子："></a>递归函数也使用调用栈。下面是一个例子：</h4><h4 id="factorial-5-写作5！其定义如下：5！-5-4-3-2-1"><a href="#factorial-5-写作5！其定义如下：5！-5-4-3-2-1" class="headerlink" title="factorial(5)写作5！其定义如下：5！= 5 * 4 * 3 * 2 * 1"></a>factorial(5)写作5！其定义如下：5！= 5 * 4 * 3 * 2 * 1</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 	递归调用栈：</span><br><span class="line"> * 		递归函数求解</span><br><span class="line"> * 			5！= 5*4*3*2*1</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class Code_04_RecursionCallStack &#123;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		System.out.println(factorical(5));</span><br><span class="line">	&#125;</span><br><span class="line">	/*</span><br><span class="line">	 * 递归函数</span><br><span class="line">	 */</span><br><span class="line">	public static int factorical(int x)&#123;</span><br><span class="line">		//基线条件</span><br><span class="line">		if(x == 1)&#123;</span><br><span class="line">			return 1;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			//递归条件</span><br><span class="line">			return x*factorical(x - 1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印输出为：</p>
+<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/12.png?raw=true" alt="Image"></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
+  
     <article id="post-算法图解第二章笔记：选择排序（java版）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -783,6 +864,18 @@ var themeMenus = {};
               <div class="widget-entry-summary" style="margin: 0;">
             
 
+              <h6 style="margin: 0;"><a href="/2019/09/06/算法图解第三章笔记：递归-java版/">算法图解第三章笔记：递归(java版)</a></h6>
+              <span>September 6, 2019</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
               <h6 style="margin: 0;"><a href="/2019/09/06/算法图解第二章笔记：选择排序（java版）/">算法图解第二章笔记：选择排序（java版）</a></h6>
               <span>September 6, 2019</span>
             </div>
@@ -837,18 +930,6 @@ var themeMenus = {};
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/08/06/JavaSocket实现向云服务器传输文件/">Java Socket实现向云服务器传输文件</a></h6>
-              <span>August 6, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -867,7 +948,7 @@ var themeMenus = {};
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
