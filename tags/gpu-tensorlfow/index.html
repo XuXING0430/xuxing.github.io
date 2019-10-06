@@ -13,7 +13,7 @@
   <!-- PACE Progress Bar START -->
 
   
-  <title>XuXing&#39;s blog</title>
+  <title>tag: gpu tensorlfow | XuXing&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
@@ -21,7 +21,7 @@
   
   <meta property="og:type" content="website">
 <meta property="og:title" content="XuXing&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:url" content="http://yoursite.com/tags/gpu-tensorlfow/index.html">
 <meta property="og:site_name" content="XuXing&#39;s blog">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
@@ -157,214 +157,40 @@ var themeMenus = {};
         
           <section id="main">
   
-    <article id="post-Veirlog学习记录-1-十进制计数器"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+  
+  
     
     
-      <header class="article-header">
-        
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <h1><a href="/archives/2019" class="archive-year">2019</a></h1>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2019/08/17/tensorflow在AMD上用ROCm框架实现GPU训练/" class="archive-article-date">
+		  <time datetime="2019-08-17T05:28:06.000Z" itemprop="datePublished">Aug 17, 2019</time>
+	  </a>
+      
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/09/Veirlog学习记录-1-十进制计数器/">Veirlog学习记录(1)--十进制计数器</a>
+      <a class="archive-article-title" href="/2019/08/17/tensorflow在AMD上用ROCm框架实现GPU训练/">tensorflow在AMD上用ROCm框架实现GPU训练</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/08/09/Veirlog学习记录-1-十进制计数器/" class="article-date">
-	  <time datetime="2019-08-09T11:25:04.000Z" itemprop="datePublished">August 9, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>﻿  最近在学校上FPGA这门课，课上做了一些小实验，现在记录一下。<br>  我所使用的软件是vivado2015.4</p>
-<p>代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">module M10_counter(</span><br><span class="line">    input EN,   //使能端</span><br><span class="line">    input CP, //时钟</span><br><span class="line">    input Rd, //清零</span><br><span class="line">    output reg Cout, //进位</span><br><span class="line">    output reg [3:0] Q //输出</span><br><span class="line">    );</span><br><span class="line">    </span><br><span class="line">always @ (posedge CP,negedge Rd)</span><br><span class="line">if(~Rd) Q&lt;=4&apos;b0000;  //异步清零</span><br><span class="line">else if(EN) begin</span><br><span class="line">    if(Q&lt;4&apos;b1001) Q&lt;=Q+1&apos;b1; //加计数</span><br><span class="line">    else Q&lt;=4&apos;b0000;</span><br><span class="line">end</span><br><span class="line">else Q&lt;=Q;</span><br><span class="line">   always @ (Q)</span><br><span class="line">    if(Q==4&apos;b1001) Cout =1; //进位</span><br><span class="line">    else Cout=0;</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
-
-<p>测试文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">module M10_counter_tb();</span><br><span class="line">    reg EN,CP,Rd;</span><br><span class="line">    wire Cout;</span><br><span class="line">    wire [3:0] Q;</span><br><span class="line">    M10_counter test(.EN(EN),</span><br><span class="line">                     .CP(CP),</span><br><span class="line">                     .Rd(Rd),</span><br><span class="line">                     .Cout(Cout),</span><br><span class="line">                     .Q(Q)  );</span><br><span class="line">        initial fork</span><br><span class="line">            CP=0;</span><br><span class="line">            EN=1; #20 EN=0; #50 EN=1;</span><br><span class="line">            Rd=0; #30 Rd=1;</span><br><span class="line">           join</span><br><span class="line">           always #8 CP=~CP;</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
-
-<p>仿真图：</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_8/9.png?raw=true" alt="Image">同理可以改成任意进制，或者是可以改成减计数。</p>
-<p>希望会对你有所启发。</p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-      
-            
-      
-    </footer>
+    </header>
   </div>
-  
 </article>
-
-<!-- Table of Contents -->
-
-    
-
   
-    <article id="post-解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/06/解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误/">解决java.lang.UnsatisfiedLinkError：java.library.path中没有rxtxSerial加载时抛出gnu.io.RXTXCommDriver错误</a>
-    </h1>
+    </div></section>
   
 
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/08/06/解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误/" class="article-date">
-	  <time datetime="2019-08-06T00:06:45.000Z" itemprop="datePublished">August 6, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>﻿   在使用Java接收串口数据的时候，需要导入有关的jar包和配置文件。<br>如果报这个错误，是因为jar包和配置文件没有放好的原因。<br><em>解决</em>：要把.rxtxParallel.dll、rxtxSerial.dll拷贝到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\develop\Java\jdk1.7.0_72\bin</span><br></pre></td></tr></table></figure>
-
-<p>​        <strong>注意：是jdk下面的bin文件夹，不是jre</strong><br>  需要什么版本的配置文件，看你的JDK，如果是32位的就下载32位的，如果是64位的就下载64位的，一定要对应好，否则也会报错。下载地址如下：<br><a href="http://rxtx.qbang.org/wiki/index.php/Download" target="_blank" rel="noopener">官网下载地址</a></p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-      
-            
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-    
-
-  
-    <article id="post-解决在cmd编译java文件后，提示找不到或无法加载主类"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/05/解决在cmd编译java文件后，提示找不到或无法加载主类/">解决在cmd编译java文件后，提示找不到或无法加载主类</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/08/05/解决在cmd编译java文件后，提示找不到或无法加载主类/" class="article-date">
-	  <time datetime="2019-08-05T13:56:50.000Z" itemprop="datePublished">August 5, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>​    ﻿最近在命令行中编译java文件，编译没有问题，却在运行的时候出现了却提示找不到或无法加载主类的报错，如下图所示。</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_8/3.png?raw=true" alt="Image"></p>
-<p>​     一开始我觉得是版本的问题。因为我一开始装的jdk版本是1.8，现在要用1.7的。上网搜索后，有很多办法，有的说是没加package名，还有说classPath的问题，不过都解决不了问题。后来发现如下方式可以解决：</p>
-<p>在cmd中输入命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET CLASSPATH=.</span><br></pre></td></tr></table></figure>
-
-<p>​    （等号后为英文点符号），即可设置解释的路径为当前路径。</p>
-<p>​    再次运行java xxx即可。</p>
-<p>效果如下：</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_8/4.png?raw=true" alt="Image"></p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-      
-            
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-    
-
-  
-    <article id="post-解决IntellijIDEA输入法不跟随的问题"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/04/解决IntellijIDEA输入法不跟随的问题/">解决IntellijIDEA输入法不跟随的问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/08/04/解决IntellijIDEA输入法不跟随的问题/" class="article-date">
-	  <time datetime="2019-08-04T12:05:15.000Z" itemprop="datePublished">August 4, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>﻿我在这里介绍一个非常简单的办法，非常好用。我的是2018.1.6，亲测有效，大家也可以试试，用不了一分钟就可以解决问题。 </p>
-<p>找到你idea的安装目录，然后</p>
-<p> <img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_8/1.png?raw=true" alt="image"> </p>
-<p>就是把jre那个目录重命名一下，像我一样在后面加一串数字即可。</p>
-<p>我的弄完以后，效果如下。</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_8/2.png?raw=true" alt="Image"><br>希望对大家有所帮助，谢谢大家。</p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-      
-            
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-    
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/">Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
 
 </section>
           <aside id="sidebar">
