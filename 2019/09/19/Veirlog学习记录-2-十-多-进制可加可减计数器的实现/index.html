@@ -16,10 +16,13 @@
   <title>veirlog学习记录(2)--十(多)进制可加可减计数器的实现 | XuXing&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="Veirlog">
+  
   
   
   
   <meta name="description" content="上一篇实现的是，十(多)进制的加计数。这次是要加上减计数，也就是实现可加可减的操作，并且在板子上验证，这次设计没有加分频模块，时钟脉冲是用按键控制的，加分频也可以。如果要加上一个减的功能，就是要在加计数的基础上加一个使能端up_down，使能端为1的时候，自加。为0的时候自减。同时从0减到9的时候要有一个借位。代码如下：123456789101112131415161718192021222324">
+<meta name="keywords" content="Veirlog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Veirlog学习记录(2)--十(多)进制可加可减计数器的实现">
 <meta property="og:url" content="http://yoursite.com/2019/09/19/Veirlog学习记录-2-十-多-进制可加可减计数器的实现/index.html">
@@ -27,7 +30,7 @@
 <meta property="og:description" content="上一篇实现的是，十(多)进制的加计数。这次是要加上减计数，也就是实现可加可减的操作，并且在板子上验证，这次设计没有加分频模块，时钟脉冲是用按键控制的，加分频也可以。如果要加上一个减的功能，就是要在加计数的基础上加一个使能端up_down，使能端为1的时候，自加。为0的时候自减。同时从0减到9的时候要有一个借位。代码如下：123456789101112131415161718192021222324">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/14.png?raw=true">
-<meta property="og:updated_time" content="2019-09-19T02:14:31.230Z">
+<meta property="og:updated_time" content="2019-10-06T08:47:19.727Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Veirlog学习记录(2)--十(多)进制可加可减计数器的实现">
 <meta name="twitter:description" content="上一篇实现的是，十(多)进制的加计数。这次是要加上减计数，也就是实现可加可减的操作，并且在板子上验证，这次设计没有加分频模块，时钟脉冲是用按键控制的，加分频也可以。如果要加上一个减的功能，就是要在加计数的基础上加一个使能端up_down，使能端为1的时候，自加。为0的时候自减。同时从0减到9的时候要有一个借位。代码如下：123456789101112131415161718192021222324">
@@ -197,7 +200,13 @@ var themeMenus = {};
     </div>
     <footer class="entry-meta entry-footer">
       
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Veirlog/">Veirlog</a>
+
       
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Veirlog/">Veirlog</a></li></ul>
+
       
         <div id="donation_div"></div>
 

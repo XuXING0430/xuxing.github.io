@@ -16,10 +16,13 @@
   <title>veirlog学习记录(3)--移位寄存器(左循环，右循环)的实现 | XuXing&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="Veirlog">
+  
   
   
   
   <meta name="description" content="移位寄存器的设计：    有三个模式：  左循环  右循环  加载预置的数  具体功能可以根据需要对程序做出一些修改即可 代码如下：   12345678910111213141516171819module shift1(clk,D,MD,QB);    input clk;  //时钟信号    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取    inp">
+<meta name="keywords" content="Veirlog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Veirlog学习记录(3)--移位寄存器(左循环，右循环)的实现">
 <meta property="og:url" content="http://yoursite.com/2019/09/19/Veirlog学习记录-3-移位寄存器-左循环，右循环-的实现/index.html">
@@ -27,7 +30,7 @@
 <meta property="og:description" content="移位寄存器的设计：    有三个模式：  左循环  右循环  加载预置的数  具体功能可以根据需要对程序做出一些修改即可 代码如下：   12345678910111213141516171819module shift1(clk,D,MD,QB);    input clk;  //时钟信号    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取    inp">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/5.png?raw=true">
-<meta property="og:updated_time" content="2019-10-06T08:11:35.375Z">
+<meta property="og:updated_time" content="2019-10-06T08:47:23.536Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Veirlog学习记录(3)--移位寄存器(左循环，右循环)的实现">
 <meta name="twitter:description" content="移位寄存器的设计：    有三个模式：  左循环  右循环  加载预置的数  具体功能可以根据需要对程序做出一些修改即可 代码如下：   12345678910111213141516171819module shift1(clk,D,MD,QB);    input clk;  //时钟信号    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取    inp">
@@ -211,7 +214,13 @@ var themeMenus = {};
     </div>
     <footer class="entry-meta entry-footer">
       
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Veirlog/">Veirlog</a>
+
       
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Veirlog/">Veirlog</a></li></ul>
+
       
         <div id="donation_div"></div>
 
