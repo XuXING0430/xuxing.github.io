@@ -19,14 +19,19 @@
   
   
   
-  <meta property="og:type" content="article">
+  <meta name="description" content="移位寄存器的设计：    有三个模式：  左循环  右循环  加载预置的数  具体功能可以根据需要对程序做出一些修改即可 代码如下：   12345678910111213141516171819module shift1(clk,D,MD,QB);    input clk;  //时钟信号    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取    inp">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Veirlog学习记录(3)--移位寄存器(左循环，右循环)的实现">
 <meta property="og:url" content="http://yoursite.com/2019/09/19/Veirlog学习记录-3-移位寄存器-左循环，右循环-的实现/index.html">
 <meta property="og:site_name" content="XuXing&#39;s blog">
+<meta property="og:description" content="移位寄存器的设计：    有三个模式：  左循环  右循环  加载预置的数  具体功能可以根据需要对程序做出一些修改即可 代码如下：   12345678910111213141516171819module shift1(clk,D,MD,QB);    input clk;  //时钟信号    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取    inp">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-19T02:16:39.285Z">
+<meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/5.png?raw=true">
+<meta property="og:updated_time" content="2019-10-06T08:11:35.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Veirlog学习记录(3)--移位寄存器(左循环，右循环)的实现">
+<meta name="twitter:description" content="移位寄存器的设计：    有三个模式：  左循环  右循环  加载预置的数  具体功能可以根据需要对程序做出一些修改即可 代码如下：   12345678910111213141516171819module shift1(clk,D,MD,QB);    input clk;  //时钟信号    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取    inp">
+<meta name="twitter:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/5.png?raw=true">
   
     <link rel="alternate" href="/atom.xml" title="XuXing&#39;s blog" type="application/atom+xml">
   
@@ -184,7 +189,28 @@ var themeMenus = {};
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>﻿移位寄存器的设计：<br>    有三个模式：</p>
+<ul>
+<li><p>左循环</p>
+</li>
+<li><p>右循环</p>
+</li>
+<li><p>加载预置的数</p>
+</li>
+<li><p><strong>具体功能可以根据需要对程序做出一些修改即可</strong></p>
+<p>代码如下：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">module shift1(clk,D,MD,QB);</span><br><span class="line"></span><br><span class="line">    input clk;  //时钟信号</span><br><span class="line">    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取</span><br><span class="line">    input [1:0] MD;  //模式选择数值</span><br><span class="line">    output [7:0] QB;  //输出的数值</span><br><span class="line">    reg [7:0] REG;  //定义寄存器类型</span><br><span class="line">       </span><br><span class="line">    always @ ( posedge clk ) begin  //对时钟信号上升沿敏感</span><br><span class="line">        case (MD)   //根据MD的数值，选择模式</span><br><span class="line">            2&apos;b01: begin REG[0] &lt;= REG[7] ; REG[7:1] &lt;= REG[6:0]; end //循环左移</span><br><span class="line">            2&apos;b10: begin REG[7] &lt;= REG[0] ; REG[6:0] &lt;= REG[7:1]; end //循环右移</span><br><span class="line">            2&apos;b00: begin REG &lt;= D; end  //加载预置的数值</span><br><span class="line">      </span><br><span class="line">       endcase</span><br><span class="line">       end</span><br><span class="line">       assign QB[7:0] = REG[7:0];   //把REG中的数值赋给QB</span><br><span class="line">          </span><br><span class="line">       endmodule</span><br></pre></td></tr></table></figure>
+
+<p>测试文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">module shift1_tb();</span><br><span class="line">    reg clk;</span><br><span class="line">    reg [7:0] D;</span><br><span class="line">    reg [1:0] MD;</span><br><span class="line">    wire [7:0] QB;  //输出</span><br><span class="line">              </span><br><span class="line">   initial </span><br><span class="line">        begin  //初始化</span><br><span class="line">        clk = 0;</span><br><span class="line">        D = 8&apos;b11110000;  //初始化待移数值（这样赋值只是为了最后好观察波形） </span><br><span class="line">        MD = 2&apos;b00;  //以置数模式开始</span><br><span class="line">        end </span><br><span class="line">        </span><br><span class="line">         always #10 clk = ~clk;  //时钟信号</span><br><span class="line">        always #100 MD = MD+1；//循环改变模式，</span><br><span class="line"> </span><br><span class="line">     shift1 test( .clk(clk),</span><br><span class="line">                     .D(D),</span><br><span class="line">                     .MD(MD),</span><br><span class="line">                     .QB(QB)</span><br><span class="line">                  );</span><br><span class="line">       </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/5.png?raw=true" alt=" "></p>
+<p>这里图形没有从一开始截取，而是选择能看到三个模式效果的时间段，MD=0时，一直在加载预置数，输出等于D 11110000.MD=1时，开始循环左移。MD=2时，开始循环右移。</p>
+<p><strong>基本的设计就是这样子，可以在它的基础上进行改进，以达到大家需要的功能，比如在shift1中的case加几个模式。D的值也可以随便赋值。</strong></p>
+<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/category/8778400" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/category/8778400</a></p>
+
       
     </div>
     <footer class="entry-meta entry-footer">

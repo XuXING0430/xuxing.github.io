@@ -13,25 +13,27 @@
   <!-- PACE Progress Bar START -->
 
   
-  <title>阿里云ubuntu18.04服务器安装mono_c#开发环境 | XuXing&#39;s blog</title>
+  <title>veirlog学习记录(4)分频模块+层次化的模块设计 | XuXing&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
   
-  <meta name="description" content="重要：安装Mono一定要参照官方文档 一开始安装的时候走了很多的弯路，就是没看官方帮助文档。实际上当你想安装什么东西，首选就是官方文档，其次才是别人的经验把。 官方帮助文档：https://www.mono-project.com/download/stable/#download-lin 这里面介绍的很清楚：对于不同的系统也有自己的安装方法。 第一种方法：直接安装第一步： 1sudo apt-">
+  <meta name="description" content="前三篇文章都是单一模块的设计，然后测试是否来完成特定的功能，不过这种方法只能解决一些简单的问题，所以实际中需要层次花的设计。 ​    这次给大家分享的就是一个层次化的设计，移位寄存器模块+分频模块，然后再用顶层文件把它们组合在一起。 ​    寄存器模块： 12345678910111213141516171819module shift1(clk,D,MD,QB);    inpu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="阿里云Ubuntu18.04服务器安装Mono_C#开发环境">
-<meta property="og:url" content="http://yoursite.com/2019/10/02/阿里云Ubuntu18-04服务器安装Mono-C-开发环境/index.html">
+<meta property="og:title" content="Veirlog学习记录(4)分频模块+层次化的模块设计">
+<meta property="og:url" content="http://yoursite.com/2019/10/06/Veirlog学习记录-4-分频模块-层次化的模块设计/index.html">
 <meta property="og:site_name" content="XuXing&#39;s blog">
-<meta property="og:description" content="重要：安装Mono一定要参照官方文档 一开始安装的时候走了很多的弯路，就是没看官方帮助文档。实际上当你想安装什么东西，首选就是官方文档，其次才是别人的经验把。 官方帮助文档：https://www.mono-project.com/download/stable/#download-lin 这里面介绍的很清楚：对于不同的系统也有自己的安装方法。 第一种方法：直接安装第一步： 1sudo apt-">
+<meta property="og:description" content="前三篇文章都是单一模块的设计，然后测试是否来完成特定的功能，不过这种方法只能解决一些简单的问题，所以实际中需要层次花的设计。 ​    这次给大家分享的就是一个层次化的设计，移位寄存器模块+分频模块，然后再用顶层文件把它们组合在一起。 ​    寄存器模块： 12345678910111213141516171819module shift1(clk,D,MD,QB);    inpu">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/1.png?raw=true">
-<meta property="og:updated_time" content="2019-10-02T10:45:36.065Z">
+<meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/2.png?raw=true">
+<meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/3.png?raw=true">
+<meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/4.png?raw=true">
+<meta property="og:updated_time" content="2019-10-06T08:11:22.695Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="阿里云Ubuntu18.04服务器安装Mono_C#开发环境">
-<meta name="twitter:description" content="重要：安装Mono一定要参照官方文档 一开始安装的时候走了很多的弯路，就是没看官方帮助文档。实际上当你想安装什么东西，首选就是官方文档，其次才是别人的经验把。 官方帮助文档：https://www.mono-project.com/download/stable/#download-lin 这里面介绍的很清楚：对于不同的系统也有自己的安装方法。 第一种方法：直接安装第一步： 1sudo apt-">
-<meta name="twitter:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/1.png?raw=true">
+<meta name="twitter:title" content="Veirlog学习记录(4)分频模块+层次化的模块设计">
+<meta name="twitter:description" content="前三篇文章都是单一模块的设计，然后测试是否来完成特定的功能，不过这种方法只能解决一些简单的问题，所以实际中需要层次花的设计。 ​    这次给大家分享的就是一个层次化的设计，移位寄存器模块+分频模块，然后再用顶层文件把它们组合在一起。 ​    寄存器模块： 12345678910111213141516171819module shift1(clk,D,MD,QB);    inpu">
+<meta name="twitter:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/2.png?raw=true">
   
     <link rel="alternate" href="/atom.xml" title="XuXing&#39;s blog" type="application/atom+xml">
   
@@ -161,7 +163,7 @@ var themeMenus = {};
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-阿里云Ubuntu18-04服务器安装Mono-C-开发环境" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-Veirlog学习记录-4-分频模块-层次化的模块设计" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -169,7 +171,7 @@ var themeMenus = {};
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      阿里云Ubuntu18.04服务器安装Mono_C#开发环境
+      Veirlog学习记录(4)分频模块+层次化的模块设计
     </h1>
   
 
@@ -177,8 +179,8 @@ var themeMenus = {};
     
     <div class="article-meta">
       
-	Posted on <a href="/2019/10/02/阿里云Ubuntu18-04服务器安装Mono-C-开发环境/" class="article-date">
-	  <time datetime="2019-10-02T10:24:40.000Z" itemprop="datePublished">October 2, 2019</time>
+	Posted on <a href="/2019/10/06/Veirlog学习记录-4-分频模块-层次化的模块设计/" class="article-date">
+	  <time datetime="2019-10-06T08:04:47.000Z" itemprop="datePublished">October 6, 2019</time>
 	</a>
 
       
@@ -189,30 +191,23 @@ var themeMenus = {};
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>﻿<strong>重要：安装Mono一定要参照官方文档</strong></p>
-<p>一开始安装的时候走了很多的弯路，就是没看官方帮助文档。实际上当你想安装什么东西，首选就是官方文档，其次才是别人的经验把。</p>
-<p>官方帮助文档：<a href="https://www.mono-project.com/download/stable/#download-lin" target="_blank" rel="noopener">https://www.mono-project.com/download/stable/#download-lin</a></p>
-<p>这里面介绍的很清楚：对于不同的系统也有自己的安装方法。</p>
-<h2 id="第一种方法：直接安装"><a href="#第一种方法：直接安装" class="headerlink" title="第一种方法：直接安装"></a>第一种方法：直接安装</h2><p>第一步：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+        <p>﻿     前三篇文章都是单一模块的设计，然后测试是否来完成特定的功能，不过这种方法只能解决一些简单的问题，所以实际中需要层次花的设计。</p>
+<p>​    这次给大家分享的就是一个层次化的设计，移位寄存器模块+分频模块，然后再用顶层文件把它们组合在一起。</p>
+<p>​    寄存器模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">module shift1(clk,D,MD,QB);</span><br><span class="line"></span><br><span class="line">    input clk;  //时钟信号</span><br><span class="line">    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取</span><br><span class="line">    input [1:0] MD;  //模式选择数值</span><br><span class="line">    output [7:0] QB;  //输出的数值</span><br><span class="line">    reg [7:0] REG;  //定义寄存器类型</span><br><span class="line">       </span><br><span class="line">    always @ ( posedge clk ) begin  //对时钟信号上升沿敏感</span><br><span class="line">        case (MD)   //根据MD的数值，选择模式</span><br><span class="line">            2&apos;b01: begin REG[0] &lt;= REG[7] ; REG[7:1] &lt;= REG[6:0]; end //循环左移</span><br><span class="line">            2&apos;b10: begin REG[7] &lt;= REG[0] ; REG[6:0] &lt;= REG[7:1]; end //循环右移</span><br><span class="line">            2&apos;b00: begin REG &lt;= D; end  //加载预置的数值</span><br><span class="line">      </span><br><span class="line">       endcase</span><br><span class="line">       end</span><br><span class="line">       assign QB[7:0] = REG[7:0];   //把REG中的数值赋给QB</span><br><span class="line">          </span><br><span class="line">       endmodule</span><br></pre></td></tr></table></figure>
 
-<p>第二步：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gnupg ca-certificates</span><br><span class="line"></span><br><span class="line">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF</span><br><span class="line"></span><br><span class="line">echo &quot;deb https://download.mono-project.com/repo/ubuntu stable-bionic main&quot; | sudo tee /etc/apt/sources.list.d/mono-official-stable.list</span><br><span class="line"></span><br><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+<p>​    分频模块：</p>
+<p>​    记得一开始的十进制可加可减计数器设计中，我们没有用分频模块，而是把时钟模块绑到了一个按键上，然后按一次表示一个时钟，这样很麻烦，引入分频模块就很有必要了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">module div(</span><br><span class="line">    input div_rst,</span><br><span class="line">    input div_clk,  //输出的时钟是100M的</span><br><span class="line">    output clk_out</span><br><span class="line">    );</span><br><span class="line">    reg [30:0] div_q;</span><br><span class="line">    reg temp;</span><br><span class="line">    always @ (posedge div_clk or posedge div_rst)</span><br><span class="line">    begin</span><br><span class="line">        if ( div_rst == 0 ) div_q &lt;= 0;</span><br><span class="line">        else if( div_q == 50000000) //保证输出的时钟是1s一次的</span><br><span class="line">            begin</span><br><span class="line">         div_q &lt;= 0; temp &lt;= ~temp;</span><br><span class="line">            end</span><br><span class="line">        else div_q &lt;= div_q + 1;</span><br><span class="line">     end</span><br><span class="line">     assign clk_out = temp;</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
 
-<p>第三步：</p>
-<p>根据自己的需要，可以根据官方文档中的提示，选择安装不同的类库。这种方式可能会出现下载速度过慢的情况，可以把安装源换为国内的，然后使用，具体请Goole或者百度。</p>
-<h2 id="第二种：解压缩方式或者直接从网站安装"><a href="#第二种：解压缩方式或者直接从网站安装" class="headerlink" title="第二种：解压缩方式或者直接从网站安装"></a>第二种：解压缩方式或者直接从网站安装</h2><p>我这里选择的是5.20.1.19版本，你可以自行选择下载安装的版本。<br>下载地址：<a href="http://download.mono-project.com/sources/mono/" target="_blank" rel="noopener">http://download.mono-project.com/sources/mono/</a></p>
-<p>第一步：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<p>​    顶层文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">module top(</span><br><span class="line">    input clk,</span><br><span class="line">    input rst,</span><br><span class="line">    input [7:0] D,</span><br><span class="line">    input [1:0] MD,</span><br><span class="line">    output [7:0] QB);</span><br><span class="line">    </span><br><span class="line">    wire a; //这个a就是把分频模块输出的时钟信号接入到寄存器模块中</span><br><span class="line">    div u1 (rst,clk,a); //把模块和顶层连接起来，子模块名字要和之前起的一致</span><br><span class="line">    shift1 u2 (a,D,MD,QB);//要注意：这里输入输出端的排布顺序要和在子模块写的顺序一致，否则就会报错。</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
 
-<p>第二步：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/src/</span><br><span class="line"></span><br><span class="line">sudo wget http://download.mono-project.com/sources/mono/mono-5.20.1.19.tar.bz2</span><br><span class="line"></span><br><span class="line">tar -jxvf mono-5.20.1.19.tar.bz2</span><br><span class="line"></span><br><span class="line">cd mono-5.20.1.19</span><br><span class="line"></span><br><span class="line">sudo ./configure --prefix=/usr</span><br><span class="line"></span><br><span class="line">sudo make</span><br><span class="line"></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-
-<p>sudo  make这一步执行之后，可能提示你缺少 cmake 这个依赖。执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install cmake</span><br></pre></td></tr></table></figure>
-
-<p>之后继续步骤就可以了。</p>
-<p>这些步骤执行之后，可以输入 mono -V  查看版本信息。如下图一样便是成功了。<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/1.png?raw=true" alt=" "><br>实际上感觉在ubuntu系统的服务器发布C#写的网页还是比较费劲的，推荐还是用Windows server系统安装IIS来发布Asp.net网站。最近我也在弄这个，有兴趣的朋友可以去看我发的相关内容。</p>
+<p><strong>注意：</strong><br><strong>测试子模块时，比如寄存器模块，那么写完这个模块时，就应该编译，然后写测试文件直接就测试，不要先等写完顶层模块再测试，否则系统会默认测试的是顶层文件，可能会导致没有任何输出产生的情况。</strong></p>
+<p>​    如果没有什么问题，你写顶层文件，然后保存，会出现如下的样子：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/2.png?raw=true" alt=" "></p>
+<p>​    表明顶层文件和子模块联系成功，编译没有错误之后，就可以进行下一步了。顶层模块也可以不用测试，如果不写测试文件的话，可以选择 综合下面的：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/3.png?raw=true" alt=" "><br>    然后就可以看形成的逻辑图，再比对是否哪里有问题，按照以上程序设计会生成以下的图：</p>
+<h4 id><a href="#" class="headerlink" title></a><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/4.png?raw=true" alt=" "></h4><p><strong>移位寄存器模块如何编写测试文件，可以参考如下链接：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/details/88851235" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/details/88851235</a></p>
+<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/category/8778400" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/category/8778400</a></p>
 
       
     </div>
@@ -265,19 +260,10 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2019/10/06/Veirlog学习记录-4-分频模块-层次化的模块设计/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Veirlog学习记录(4)分频模块+层次化的模块设计
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/09/19/Veirlog学习记录-3-移位寄存器-左循环，右循环-的实现/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/10/02/阿里云Ubuntu18-04服务器安装Mono-C-开发环境/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Veirlog学习记录(3)--移位寄存器(左循环，右循环)的实现</div>
+      <div class="article-nav-title">阿里云Ubuntu18.04服务器安装Mono_C#开发环境</div>
     </a>
   
 </nav>
@@ -291,7 +277,7 @@ var a = new Donate({
     <div id="toc" class="toc-article" style="overflow-y: scroll; max-width: 28%;">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一种方法：直接安装"><span class="nav-number">1.</span> <span class="nav-text">第一种方法：直接安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二种：解压缩方式或者直接从网站安装"><span class="nav-number">2.</span> <span class="nav-text">第二种：解压缩方式或者直接从网站安装</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li></ol>
     
     </div>
   </aside>

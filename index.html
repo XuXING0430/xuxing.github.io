@@ -157,6 +157,66 @@ var themeMenus = {};
         
           <section id="main">
   
+    <article id="post-Veirlog学习记录-4-分频模块-层次化的模块设计"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/10/06/Veirlog学习记录-4-分频模块-层次化的模块设计/">Veirlog学习记录(4)分频模块+层次化的模块设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2019/10/06/Veirlog学习记录-4-分频模块-层次化的模块设计/" class="article-date">
+	  <time datetime="2019-10-06T08:04:47.000Z" itemprop="datePublished">October 6, 2019</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>﻿     前三篇文章都是单一模块的设计，然后测试是否来完成特定的功能，不过这种方法只能解决一些简单的问题，所以实际中需要层次花的设计。</p>
+<p>​    这次给大家分享的就是一个层次化的设计，移位寄存器模块+分频模块，然后再用顶层文件把它们组合在一起。</p>
+<p>​    寄存器模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">module shift1(clk,D,MD,QB);</span><br><span class="line"></span><br><span class="line">    input clk;  //时钟信号</span><br><span class="line">    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取</span><br><span class="line">    input [1:0] MD;  //模式选择数值</span><br><span class="line">    output [7:0] QB;  //输出的数值</span><br><span class="line">    reg [7:0] REG;  //定义寄存器类型</span><br><span class="line">       </span><br><span class="line">    always @ ( posedge clk ) begin  //对时钟信号上升沿敏感</span><br><span class="line">        case (MD)   //根据MD的数值，选择模式</span><br><span class="line">            2&apos;b01: begin REG[0] &lt;= REG[7] ; REG[7:1] &lt;= REG[6:0]; end //循环左移</span><br><span class="line">            2&apos;b10: begin REG[7] &lt;= REG[0] ; REG[6:0] &lt;= REG[7:1]; end //循环右移</span><br><span class="line">            2&apos;b00: begin REG &lt;= D; end  //加载预置的数值</span><br><span class="line">      </span><br><span class="line">       endcase</span><br><span class="line">       end</span><br><span class="line">       assign QB[7:0] = REG[7:0];   //把REG中的数值赋给QB</span><br><span class="line">          </span><br><span class="line">       endmodule</span><br></pre></td></tr></table></figure>
+
+<p>​    分频模块：</p>
+<p>​    记得一开始的十进制可加可减计数器设计中，我们没有用分频模块，而是把时钟模块绑到了一个按键上，然后按一次表示一个时钟，这样很麻烦，引入分频模块就很有必要了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">module div(</span><br><span class="line">    input div_rst,</span><br><span class="line">    input div_clk,  //输出的时钟是100M的</span><br><span class="line">    output clk_out</span><br><span class="line">    );</span><br><span class="line">    reg [30:0] div_q;</span><br><span class="line">    reg temp;</span><br><span class="line">    always @ (posedge div_clk or posedge div_rst)</span><br><span class="line">    begin</span><br><span class="line">        if ( div_rst == 0 ) div_q &lt;= 0;</span><br><span class="line">        else if( div_q == 50000000) //保证输出的时钟是1s一次的</span><br><span class="line">            begin</span><br><span class="line">         div_q &lt;= 0; temp &lt;= ~temp;</span><br><span class="line">            end</span><br><span class="line">        else div_q &lt;= div_q + 1;</span><br><span class="line">     end</span><br><span class="line">     assign clk_out = temp;</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<p>​    顶层文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">module top(</span><br><span class="line">    input clk,</span><br><span class="line">    input rst,</span><br><span class="line">    input [7:0] D,</span><br><span class="line">    input [1:0] MD,</span><br><span class="line">    output [7:0] QB);</span><br><span class="line">    </span><br><span class="line">    wire a; //这个a就是把分频模块输出的时钟信号接入到寄存器模块中</span><br><span class="line">    div u1 (rst,clk,a); //把模块和顶层连接起来，子模块名字要和之前起的一致</span><br><span class="line">    shift1 u2 (a,D,MD,QB);//要注意：这里输入输出端的排布顺序要和在子模块写的顺序一致，否则就会报错。</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong><br><strong>测试子模块时，比如寄存器模块，那么写完这个模块时，就应该编译，然后写测试文件直接就测试，不要先等写完顶层模块再测试，否则系统会默认测试的是顶层文件，可能会导致没有任何输出产生的情况。</strong></p>
+<p>​    如果没有什么问题，你写顶层文件，然后保存，会出现如下的样子：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/2.png?raw=true" alt=" "></p>
+<p>​    表明顶层文件和子模块联系成功，编译没有错误之后，就可以进行下一步了。顶层模块也可以不用测试，如果不写测试文件的话，可以选择 综合下面的：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/3.png?raw=true" alt=" "><br>    然后就可以看形成的逻辑图，再比对是否哪里有问题，按照以上程序设计会生成以下的图：</p>
+<h4 id><a href="#" class="headerlink" title></a><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/4.png?raw=true" alt=" "></h4><p><strong>移位寄存器模块如何编写测试文件，可以参考如下链接：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/details/88851235" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/details/88851235</a></p>
+<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/category/8778400" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/category/8778400</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
+  
     <article id="post-阿里云Ubuntu18-04服务器安装Mono-C-开发环境"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -248,7 +308,28 @@ var themeMenus = {};
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>﻿移位寄存器的设计：<br>    有三个模式：</p>
+<ul>
+<li><p>左循环</p>
+</li>
+<li><p>右循环</p>
+</li>
+<li><p>加载预置的数</p>
+</li>
+<li><p><strong>具体功能可以根据需要对程序做出一些修改即可</strong></p>
+<p>代码如下：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">module shift1(clk,D,MD,QB);</span><br><span class="line"></span><br><span class="line">    input clk;  //时钟信号</span><br><span class="line">    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取</span><br><span class="line">    input [1:0] MD;  //模式选择数值</span><br><span class="line">    output [7:0] QB;  //输出的数值</span><br><span class="line">    reg [7:0] REG;  //定义寄存器类型</span><br><span class="line">       </span><br><span class="line">    always @ ( posedge clk ) begin  //对时钟信号上升沿敏感</span><br><span class="line">        case (MD)   //根据MD的数值，选择模式</span><br><span class="line">            2&apos;b01: begin REG[0] &lt;= REG[7] ; REG[7:1] &lt;= REG[6:0]; end //循环左移</span><br><span class="line">            2&apos;b10: begin REG[7] &lt;= REG[0] ; REG[6:0] &lt;= REG[7:1]; end //循环右移</span><br><span class="line">            2&apos;b00: begin REG &lt;= D; end  //加载预置的数值</span><br><span class="line">      </span><br><span class="line">       endcase</span><br><span class="line">       end</span><br><span class="line">       assign QB[7:0] = REG[7:0];   //把REG中的数值赋给QB</span><br><span class="line">          </span><br><span class="line">       endmodule</span><br></pre></td></tr></table></figure>
+
+<p>测试文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">module shift1_tb();</span><br><span class="line">    reg clk;</span><br><span class="line">    reg [7:0] D;</span><br><span class="line">    reg [1:0] MD;</span><br><span class="line">    wire [7:0] QB;  //输出</span><br><span class="line">              </span><br><span class="line">   initial </span><br><span class="line">        begin  //初始化</span><br><span class="line">        clk = 0;</span><br><span class="line">        D = 8&apos;b11110000;  //初始化待移数值（这样赋值只是为了最后好观察波形） </span><br><span class="line">        MD = 2&apos;b00;  //以置数模式开始</span><br><span class="line">        end </span><br><span class="line">        </span><br><span class="line">         always #10 clk = ~clk;  //时钟信号</span><br><span class="line">        always #100 MD = MD+1；//循环改变模式，</span><br><span class="line"> </span><br><span class="line">     shift1 test( .clk(clk),</span><br><span class="line">                     .D(D),</span><br><span class="line">                     .MD(MD),</span><br><span class="line">                     .QB(QB)</span><br><span class="line">                  );</span><br><span class="line">       </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/5.png?raw=true" alt=" "></p>
+<p>这里图形没有从一开始截取，而是选择能看到三个模式效果的时间段，MD=0时，一直在加载预置数，输出等于D 11110000.MD=1时，开始循环左移。MD=2时，开始循环右移。</p>
+<p><strong>基本的设计就是这样子，可以在它的基础上进行改进，以达到大家需要的功能，比如在shift1中的case加几个模式。D的值也可以随便赋值。</strong></p>
+<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/category/8778400" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/category/8778400</a></p>
+
       
     </div>
     <footer class="entry-meta entry-footer">
@@ -699,59 +780,6 @@ var themeMenus = {};
     
 
   
-    <article id="post-Veirlog学习记录-1-十进制计数器"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/09/Veirlog学习记录-1-十进制计数器/">Veirlog学习记录(1)--十进制计数器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/08/09/Veirlog学习记录-1-十进制计数器/" class="article-date">
-	  <time datetime="2019-08-09T11:25:04.000Z" itemprop="datePublished">August 9, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>﻿  最近在学校上FPGA这门课，课上做了一些小实验，现在记录一下。<br>  我所使用的软件是vivado2015.4</p>
-<p>代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">module M10_counter(</span><br><span class="line">    input EN,   //使能端</span><br><span class="line">    input CP, //时钟</span><br><span class="line">    input Rd, //清零</span><br><span class="line">    output reg Cout, //进位</span><br><span class="line">    output reg [3:0] Q //输出</span><br><span class="line">    );</span><br><span class="line">    </span><br><span class="line">always @ (posedge CP,negedge Rd)</span><br><span class="line">if(~Rd) Q&lt;=4&apos;b0000;  //异步清零</span><br><span class="line">else if(EN) begin</span><br><span class="line">    if(Q&lt;4&apos;b1001) Q&lt;=Q+1&apos;b1; //加计数</span><br><span class="line">    else Q&lt;=4&apos;b0000;</span><br><span class="line">end</span><br><span class="line">else Q&lt;=Q;</span><br><span class="line">   always @ (Q)</span><br><span class="line">    if(Q==4&apos;b1001) Cout =1; //进位</span><br><span class="line">    else Cout=0;</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
-
-<p>测试文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">module M10_counter_tb();</span><br><span class="line">    reg EN,CP,Rd;</span><br><span class="line">    wire Cout;</span><br><span class="line">    wire [3:0] Q;</span><br><span class="line">    M10_counter test(.EN(EN),</span><br><span class="line">                     .CP(CP),</span><br><span class="line">                     .Rd(Rd),</span><br><span class="line">                     .Cout(Cout),</span><br><span class="line">                     .Q(Q)  );</span><br><span class="line">        initial fork</span><br><span class="line">            CP=0;</span><br><span class="line">            EN=1; #20 EN=0; #50 EN=1;</span><br><span class="line">            Rd=0; #30 Rd=1;</span><br><span class="line">           join</span><br><span class="line">           always #8 CP=~CP;</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
-
-<p>仿真图：</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_8/9.png?raw=true" alt="Image">同理可以改成任意进制，或者是可以改成减计数。</p>
-<p>希望会对你有所启发。</p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-      
-            
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-    
-
-  
 
 
   <nav id="page-nav">
@@ -880,6 +908,18 @@ var themeMenus = {};
               <div class="widget-entry-summary" style="margin: 0;">
             
 
+              <h6 style="margin: 0;"><a href="/2019/10/06/Veirlog学习记录-4-分频模块-层次化的模块设计/">Veirlog学习记录(4)分频模块+层次化的模块设计</a></h6>
+              <span>October 6, 2019</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
               <h6 style="margin: 0;"><a href="/2019/10/02/阿里云Ubuntu18-04服务器安装Mono-C-开发环境/">阿里云Ubuntu18.04服务器安装Mono_C#开发环境</a></h6>
               <span>October 2, 2019</span>
             </div>
@@ -934,18 +974,6 @@ var themeMenus = {};
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/09/06/算法图解第二章笔记：选择排序（java版）/">算法图解第二章笔记：选择排序（java版）</a></h6>
-              <span>September 6, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -964,7 +992,7 @@ var themeMenus = {};
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
