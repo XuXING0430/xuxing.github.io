@@ -153,6 +153,65 @@ var themeMenus = {};
         
           <section id="main">
   
+    <article id="post-matlab实现随机攻击网络节点-蓄意攻击网络节点-2"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/12/20/matlab实现随机攻击网络节点-蓄意攻击网络节点-2/">matlab实现随机攻击网络节点+蓄意攻击网络节点(2)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2019/12/20/matlab实现随机攻击网络节点-蓄意攻击网络节点-2/" class="article-date">
+	  <time datetime="2019-12-20T00:41:36.000Z" itemprop="datePublished">December 20, 2019</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>﻿上一篇介绍了随机攻击网络节点与蓄意攻击节点的基本方法。<strong>上一篇文章</strong>地址：<a href="https://xuxing0430.github.io/2019/12/13/matlab%E5%AE%9E%E7%8E%B0%E9%9A%8F%E6%9C%BA%E6%94%BB%E5%87%BB%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9-%E8%93%84%E6%84%8F%E6%94%BB%E5%87%BB%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9/" target="_blank" rel="noopener">matlab实现随机攻击网络节点+蓄意攻击网络节点（1）</a></p>
+<p>其中随机攻击的部分还有一些瑕疵，就是在实际的研究中，需要对网络进行<strong>多次</strong>（数十次甚至上百次）攻击后取指标变化平均值，这样的<strong>实验数据</strong>才具有一定的说服力。</p>
+<p>其实这个问题乍一听起来，原理也比较简单：<strong>就是让一个程序运行指定的次数然后，累加程序中某一个变量后取平均值</strong>。</p>
+<p>实现起来也并不费劲，<strong>首先就是把这个程序定义为一个函数，然后把所需要累加的变量作为函数的返回值。然后在另一个文件中创建循环，在循环中调用该函数，用一个变量接收该函数的返回值，以达到累加的效果，最后在循环外部取一个平均值即可。</strong></p>
+<p><strong>代码如下所示：</strong></p>
+<p><strong>定义函数文件名称（该名称需要与函数名称相同）</strong></p>
+<p><strong>函数的参数介绍：</strong></p>
+<p><strong>输入值</strong>： <strong>str</strong>：意为数据文件的路径；<strong>numDelete</strong>:删除节点的个数（这里的命名只是为了方便并不是必选项）<br><strong>返回值</strong>：<strong>Eglob</strong>，即网络效率值的数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">function Eglob = ATestAver(str,numDelete)</span><br><span class="line">%输入 ： </span><br><span class="line">%        str：意为数据文件的路径</span><br><span class="line">%        numDelete:删除节点的个数</span><br><span class="line"></span><br><span class="line">%返回值：Eglob，即网络效率值的数组</span><br><span class="line"></span><br><span class="line">%加载数据文件</span><br><span class="line">load(str);</span><br><span class="line"></span><br><span class="line">Name_Struct = Node_Key_Sort_Descend;       %  Name_Struct 数据集名称，更换网络数据集时，需要更改此处结构体名称</span><br><span class="line">A_Init =  Name_Struct.Adjacent_Matrix;      %% 网络邻接矩阵</span><br><span class="line">N_Init = size(A_Init,1);                     %% 节点个数</span><br><span class="line"></span><br><span class="line">NetEff_Init = zeros(1,numDelete);</span><br><span class="line">Struct_Init = struct(&apos;Deg&apos;,NetEff_Init);</span><br><span class="line"></span><br><span class="line">% 初始网络性能</span><br><span class="line">%生成随机数，以此进行随机攻</span><br><span class="line">Name_Struct.Node_Key_Degree = randperm(440);</span><br><span class="line"></span><br><span class="line">%% </span><br><span class="line">%  按照 Degree 算法排序，删除节点</span><br><span class="line">A = A_Init;          %% 网络邻接矩阵 A</span><br><span class="line">for i = 1:numDelete</span><br><span class="line">    A( Name_Struct.Node_Key_Degree(i),: ) = 0;     %% 删除节点 Node_Key_Degree(i),用 0 占位，不能置空</span><br><span class="line">    A( :,Name_Struct.Node_Key_Degree(i) ) = 0;</span><br><span class="line">    AA = A;</span><br><span class="line">    AA( sum(A)==0,: ) = [];</span><br><span class="line">    AA( :,sum(A)==0 ) = [];</span><br><span class="line">    Con_Index_NetEff = testEglob( AA );</span><br><span class="line"></span><br><span class="line">    Eglob(i) = Con_Index_NetEff.Net_Eff_Mymod;          </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p><strong>定义测试文件：</strong></p>
+<p>  <strong>文件中需要定义随机攻击的次数和随机攻击节点的个数，具体参数设置应视具体网络而定。<br>  在调用函数时，要传入文件路径，和删除节点的个数。</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">%定义随机攻击节点的个数，具体数值根据网络规模拟定</span><br><span class="line">numDelete = 22;</span><br><span class="line"></span><br><span class="line">%定义网络效率初始矩阵</span><br><span class="line">netSum = zeros(1,numDelete);</span><br><span class="line"></span><br><span class="line">%定义随机攻击的次数，也就是函数循环的次数</span><br><span class="line">numRandom = 50;</span><br><span class="line">for i=1:numRandom</span><br><span class="line">    </span><br><span class="line">    %把得到的网络效率数组赋给netI</span><br><span class="line">    netI = ATestAver(&apos;Data\12_15jiaQuanData.mat&apos;,numDelete);</span><br><span class="line">    %累加</span><br><span class="line">    netSum = netSum + netI;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">%求出平均值</span><br><span class="line">netAver = netSum/numRandom;</span><br></pre></td></tr></table></figure>
+
+<p>我的测试数据具有<strong>小世界特性与无标度特性</strong>。并得到了以下的<strong>结果</strong>:<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_12/2.png?raw=true" alt="例子"><br><strong>大家可以看出，经过多次随机攻击取指标平均值之后，曲线近似于一条直线，下降速率较小且符合实际的网络情况。验证了无标度网络对于随机攻击拥有较好的鲁棒性。</strong></p>
+<p>希望本文对大家有所帮助，有任何问题或者是建议，欢迎大家与我交流。</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
+  
     <article id="post-matlab实现随机攻击网络节点-蓄意攻击网络节点"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -161,7 +220,7 @@ var themeMenus = {};
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/12/13/matlab实现随机攻击网络节点-蓄意攻击网络节点/">matlab实现随机攻击网络节点+蓄意攻击网络节点</a>
+      <a class="article-title" href="/2019/12/13/matlab实现随机攻击网络节点-蓄意攻击网络节点/">matlab实现随机攻击网络节点+蓄意攻击网络节点(1)</a>
     </h1>
   
 
@@ -742,55 +801,6 @@ var themeMenus = {};
     
 
   
-    <article id="post-算法图解笔记：第一章"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/09/04/算法图解笔记：第一章/">算法图解笔记：第一章（java版）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/09/04/算法图解笔记：第一章/" class="article-date">
-	  <time datetime="2019-09-04T01:17:58.000Z" itemprop="datePublished">September 4, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>二分查找：</p>
-<p>优点：时间复杂度低，仅为logN</p>
-<p>注意：前提是有序数组</p>
-<p>Code：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class Code_01_binarySearch &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		//测试数组</span><br><span class="line">		int[] myList = &#123;1,3,5,7,9&#125;;</span><br><span class="line">		System.out.println(binarySearch(myList, 7));</span><br><span class="line">		System.out.println(binarySearch(myList, 10));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static int binarySearch(int[] list,int item)&#123;</span><br><span class="line">		int low = 0;</span><br><span class="line">		int high = list.length - 1;</span><br><span class="line">		while(low &lt;= high)&#123;</span><br><span class="line">			//定义中间位置</span><br><span class="line">			int mid = low +(high - low)/2;</span><br><span class="line">			int guess = list[mid];</span><br><span class="line">			if(guess == item)&#123;</span><br><span class="line">				return mid;</span><br><span class="line">			&#125;</span><br><span class="line">			if(guess &lt; item)&#123;</span><br><span class="line">				low = mid + 1;</span><br><span class="line">			&#125;</span><br><span class="line">			else&#123;</span><br><span class="line">				high = mid - 1;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-      
-            
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-    
-
-  
 
 
   <nav id="page-nav">
@@ -895,7 +905,19 @@ var themeMenus = {};
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/12/13/matlab实现随机攻击网络节点-蓄意攻击网络节点/">matlab实现随机攻击网络节点+蓄意攻击网络节点</a></h6>
+              <h6 style="margin: 0;"><a href="/2019/12/20/matlab实现随机攻击网络节点-蓄意攻击网络节点-2/">matlab实现随机攻击网络节点+蓄意攻击网络节点(2)</a></h6>
+              <span>December 20, 2019</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
+              <h6 style="margin: 0;"><a href="/2019/12/13/matlab实现随机攻击网络节点-蓄意攻击网络节点/">matlab实现随机攻击网络节点+蓄意攻击网络节点(1)</a></h6>
               <span>December 13, 2019</span>
             </div>
 
@@ -949,18 +971,6 @@ var themeMenus = {};
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/09/10/算法图解第二章笔记：快速排序1（java版）/">算法图解第四章笔记：快速排序1（java版）</a></h6>
-              <span>September 10, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1000,7 +1010,7 @@ var themeMenus = {};
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
