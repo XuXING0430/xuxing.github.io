@@ -30,7 +30,7 @@
 <meta property="og:description" content="上一篇实现的是，十(多)进制的加计数。这次是要加上减计数，也就是实现可加可减的操作，并且在板子上验证，这次设计没有加分频模块，时钟脉冲是用按键控制的，加分频也可以。如果要加上一个减的功能，就是要在加计数的基础上加一个使能端up_down，使能端为1的时候，自加。为0的时候自减。同时从0减到9的时候要有一个借位。代码如下：123456789101112131415161718192021222324">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/14.png?raw=true">
-<meta property="og:updated_time" content="2019-10-06T08:47:19.727Z">
+<meta property="og:updated_time" content="2019-12-30T02:36:58.430Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Veirlog学习记录(2)--十(多)进制可加可减计数器的实现">
 <meta name="twitter:description" content="上一篇实现的是，十(多)进制的加计数。这次是要加上减计数，也就是实现可加可减的操作，并且在板子上验证，这次设计没有加分频模块，时钟脉冲是用按键控制的，加分频也可以。如果要加上一个减的功能，就是要在加计数的基础上加一个使能端up_down，使能端为1的时候，自加。为0的时候自减。同时从0减到9的时候要有一个借位。代码如下：123456789101112131415161718192021222324">
@@ -194,7 +194,7 @@ var themeMenus = {};
 <h4 id="测试文件："><a href="#测试文件：" class="headerlink" title="测试文件："></a>测试文件：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">module M10_updown_tb();</span><br><span class="line">    reg EN,CP,Rd,up_down;     //输入端口说明</span><br><span class="line">    wire Cout;           //进位信号</span><br><span class="line">    wire [3:0] Q;     //数据输出端口及变量的数据类型生命</span><br><span class="line">    M10_updown test( .EN(EN),   //M10_updown这的名称要和design的文件名一致</span><br><span class="line">                    .CP(CP),</span><br><span class="line">                    .Rd(Rd),</span><br><span class="line">                    .up_down(up_down),</span><br><span class="line">                    .Cout(Cout),</span><br><span class="line">                    .Q(Q) );</span><br><span class="line">    initial fork</span><br><span class="line">        CP=0;</span><br><span class="line">        EN=1; #20 EN=0;#50 EN=1;</span><br><span class="line">        Rd=0; #30 Rd=1;</span><br><span class="line">        up_down=0; #300 up_down=1;</span><br><span class="line">     join</span><br><span class="line">    always #8 CP=~CP;</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
 
 <p>仿真图如下：</p>
-<h4 id><a href="#" class="headerlink" title></a><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/14.png?raw=true" alt=" "></h4><h4 id="然后就是布局布线，添加约束文件。接上板子就ok了。"><a href="#然后就是布局布线，添加约束文件。接上板子就ok了。" class="headerlink" title="然后就是布局布线，添加约束文件。接上板子就ok了。"></a>然后就是布局布线，添加约束文件。接上板子就ok了。</h4><p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/category/8778400" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/category/8778400</a></p>
+<h4 id><a href="#" class="headerlink" title></a><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/14.png?raw=true" alt=" "></h4><h4 id="然后就是布局布线，添加约束文件。接上板子就ok了。"><a href="#然后就是布局布线，添加约束文件。接上板子就ok了。" class="headerlink" title="然后就是布局布线，添加约束文件。接上板子就ok了。"></a>然后就是布局布线，添加约束文件。接上板子就ok了。</h4><p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://xuxing0430.github.io/categories/Veirlog/" target="_blank" rel="noopener">Verilog学习</a></p>
 
       
     </div>
@@ -291,7 +291,7 @@ var a = new Donate({
 
   <div class="clearfix container">
       <div class="site-info">
-	      &copy; 2019 XuXing&#39;s blog All Rights Reserved.
+	      &copy; 2020 XuXing&#39;s blog All Rights Reserved.
           
             <span id="busuanzi_container_site_uv">
               本站访客数<span id="busuanzi_value_site_uv"></span>人次  

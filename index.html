@@ -153,6 +153,72 @@ var themeMenus = {};
         
           <section id="main">
   
+    <article id="post-算法学习笔记1-面向对象的数组"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2020/01/02/算法学习笔记1-面向对象的数组/">算法学习笔记1:面向对象的数组</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2020/01/02/算法学习笔记1-面向对象的数组/" class="article-date">
+	  <time datetime="2020-01-02T08:11:28.000Z" itemprop="datePublished">January 2, 2020</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>算法学习的笔记1，关于对象数组的一个工具类</strong>。<br>该工具类可实现<strong>以下功能</strong>：</p>
+<p>获取数组的长度</p>
+<p>在数组的末尾添加一个元素</p>
+<p>打印所有元素到控制台</p>
+<p>删除数组中的某个元素</p>
+<p>获取某个元素</p>
+<p>在指定位置插入一个元素</p>
+<p>替换指定位置的元素</p>
+<p><a href="https://github.com/XuXING0430/algorithmStudy/tree/master/class3_array" target="_blank" rel="noopener">github工程地址</a></p>
+<p><strong>工具类代码如下</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> class3_array.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyArray</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        用于存储数据的数组</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] elements;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyArray</span><span class="params">()</span></span>&#123;</span><br><span class="line">        elements = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取数组的长度</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> elements.length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 往数组的末尾添加一个数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> element)</span></span>&#123;</span><br><span class="line">        <span class="comment">//创建一个新的数组</span></span><br><span class="line">        <span class="keyword">int</span>[] newArr = <span class="keyword">new</span> <span class="keyword">int</span>[elements.length + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//把原数组中的元素复制到新数组中</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++) &#123;</span><br><span class="line">            newArr[i] = elements[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//把添加的元素放入新的数组中</span></span><br><span class="line">        newArr[newArr.length-<span class="number">1</span>] = element;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//新数组替换旧数组</span></span><br><span class="line">        elements = newArr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 打印所有元素到控制台</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(Arrays.toString(elements));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除数组中的某个元素</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">        <span class="comment">//判断传入的下标</span></span><br><span class="line">        <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; elements.length - <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"下标越界"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//创建一个新的数组</span></span><br><span class="line">        <span class="keyword">int</span>[] newArr = <span class="keyword">new</span> <span class="keyword">int</span>[elements.length -<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//把原来数组删除之后的元素赋值给新的数组</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; newArr.length; i++) &#123;</span><br><span class="line">            <span class="comment">//想要删除元素前面的元素</span></span><br><span class="line">            <span class="keyword">if</span> (i &lt; index)&#123;</span><br><span class="line">                newArr[i] = elements[i];</span><br><span class="line">            <span class="comment">//想要删除元素后面的元素</span></span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                newArr[i] = elements[i + <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//把新数组替换旧数组</span></span><br><span class="line">        elements = newArr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取某个元素</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">        <span class="comment">//判断是否下标越界</span></span><br><span class="line">        <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; elements.length - <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"下标越界"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> elements[index];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 插入一个元素到指定位置</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index,<span class="keyword">int</span> element)</span></span>&#123;</span><br><span class="line">        <span class="comment">//判断是否下标越界</span></span><br><span class="line">        <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; elements.length)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"下标越界"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//新建一个数组</span></span><br><span class="line">        <span class="keyword">int</span>[] newArr = <span class="keyword">new</span> <span class="keyword">int</span>[elements.length + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//把原有数组中的值复制到新数组中</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++) &#123;</span><br><span class="line">            <span class="comment">//插入元素之前的元素</span></span><br><span class="line">            <span class="keyword">if</span> (i &lt; index)&#123;</span><br><span class="line">                newArr[i] = elements[i];</span><br><span class="line">            <span class="comment">//插入位置之后的元素</span></span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">                newArr[i + <span class="number">1</span>] = elements[i];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//把要插入的元素方到指定位置</span></span><br><span class="line">        newArr[index] = element;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//新数组替换旧数组</span></span><br><span class="line">        elements = newArr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 替换指定位置的元素</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> index,<span class="keyword">int</span> element)</span></span>&#123;</span><br><span class="line">        <span class="comment">//判断是否下标越界</span></span><br><span class="line">        <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; elements.length - <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"下标越界"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        elements[index] = element;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试类代码如下</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> class3_array;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> class3_array.utils.MyArray;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestMyArray</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建一个可变的数组</span></span><br><span class="line">        MyArray myArray = <span class="keyword">new</span> MyArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取长度</span></span><br><span class="line">        <span class="keyword">int</span> size = myArray.size();</span><br><span class="line">        myArray.show();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//往可变数组中添加一个元素</span></span><br><span class="line">        myArray.add(<span class="number">99</span>);</span><br><span class="line">        myArray.add(<span class="number">98</span>);</span><br><span class="line">        myArray.add(<span class="number">97</span>);</span><br><span class="line">        <span class="comment">//显示所有元素到控制台</span></span><br><span class="line">        myArray.show();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//删除某个元素</span></span><br><span class="line">        myArray.delete(<span class="number">1</span>);</span><br><span class="line">        myArray.show();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//取出指定位置的元素</span></span><br><span class="line">        <span class="keyword">int</span> element = myArray.get(<span class="number">1</span>);</span><br><span class="line">        System.out.println(element);</span><br><span class="line">        System.out.println(<span class="string">"============="</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//在指定位置插入元素</span></span><br><span class="line">        myArray.insert(<span class="number">2</span>,<span class="number">96</span>);</span><br><span class="line">        myArray.show();</span><br><span class="line">        System.out.println(<span class="string">"============"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//替换指定位置的元素</span></span><br><span class="line">        myArray.set(<span class="number">0</span>,<span class="number">100</span>);</span><br><span class="line">        myArray.show();</span><br><span class="line">        System.out.println(myArray.size());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>希望能对您有所帮助。</p>
+<p>欢迎大家访问我的<a href="https://xuxing0430.github.io/" target="_blank" rel="noopener">个人博客</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java教程-算法-数组/">java教程 算法 数组</a></li></ul>
+
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
+  
     <article id="post-Veirlog学习记录-6-数字频率计的设计与实现-附完整工程"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -349,7 +415,13 @@ var themeMenus = {};
     </div>
     <footer class="entry-meta entry-footer">
       
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Matlab/">Matlab</a>
+
       
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/matlab-网络节点-随机攻击/">matlab 网络节点 随机攻击</a></li></ul>
+
       
             
       
@@ -412,7 +484,13 @@ var themeMenus = {};
     </div>
     <footer class="entry-meta entry-footer">
       
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Matlab/">Matlab</a>
+
       
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/matlab-网络节点-随机攻击/">matlab 网络节点 随机攻击</a></li></ul>
+
       
             
       
@@ -466,7 +544,7 @@ var themeMenus = {};
 <p>​    如果没有什么问题，你写顶层文件，然后保存，会出现如下的样子：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/2.png?raw=true" alt=" "></p>
 <p>​    表明顶层文件和子模块联系成功，编译没有错误之后，就可以进行下一步了。顶层模块也可以不用测试，如果不写测试文件的话，可以选择 综合下面的：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/3.png?raw=true" alt=" "><br>    然后就可以看形成的逻辑图，再比对是否哪里有问题，按照以上程序设计会生成以下的图：</p>
 <h4 id><a href="#" class="headerlink" title></a><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/4.png?raw=true" alt=" "></h4><p><strong>移位寄存器模块如何编写测试文件，可以参考如下链接：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/details/88851235" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/details/88851235</a></p>
-<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/category/8778400" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/category/8778400</a></p>
+<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://xuxing0430.github.io/categories/Veirlog/" target="_blank" rel="noopener">Verilog学习</a></p>
 
       
     </div>
@@ -545,7 +623,13 @@ var themeMenus = {};
     </div>
     <footer class="entry-meta entry-footer">
       
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/云服务器/">云服务器</a>
+
       
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/云服务器-ubuntu-mono-c/">云服务器 ubuntu mono c#</a></li></ul>
+
       
             
       
@@ -603,7 +687,7 @@ var themeMenus = {};
 <p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/5.png?raw=true" alt=" "></p>
 <p>这里图形没有从一开始截取，而是选择能看到三个模式效果的时间段，MD=0时，一直在加载预置数，输出等于D 11110000.MD=1时，开始循环左移。MD=2时，开始循环右移。</p>
 <p><strong>基本的设计就是这样子，可以在它的基础上进行改进，以达到大家需要的功能，比如在shift1中的case加几个模式。D的值也可以随便赋值。</strong></p>
-<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/category/8778400" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/category/8778400</a></p>
+<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://xuxing0430.github.io/categories/Veirlog/" target="_blank" rel="noopener">Verilog学习</a></p>
 
       
     </div>
@@ -659,7 +743,7 @@ var themeMenus = {};
 <h4 id="测试文件："><a href="#测试文件：" class="headerlink" title="测试文件："></a>测试文件：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">module M10_updown_tb();</span><br><span class="line">    reg EN,CP,Rd,up_down;     //输入端口说明</span><br><span class="line">    wire Cout;           //进位信号</span><br><span class="line">    wire [3:0] Q;     //数据输出端口及变量的数据类型生命</span><br><span class="line">    M10_updown test( .EN(EN),   //M10_updown这的名称要和design的文件名一致</span><br><span class="line">                    .CP(CP),</span><br><span class="line">                    .Rd(Rd),</span><br><span class="line">                    .up_down(up_down),</span><br><span class="line">                    .Cout(Cout),</span><br><span class="line">                    .Q(Q) );</span><br><span class="line">    initial fork</span><br><span class="line">        CP=0;</span><br><span class="line">        EN=1; #20 EN=0;#50 EN=1;</span><br><span class="line">        Rd=0; #30 Rd=1;</span><br><span class="line">        up_down=0; #300 up_down=1;</span><br><span class="line">     join</span><br><span class="line">    always #8 CP=~CP;</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
 
 <p>仿真图如下：</p>
-<h4 id><a href="#" class="headerlink" title></a><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/14.png?raw=true" alt=" "></h4><h4 id="然后就是布局布线，添加约束文件。接上板子就ok了。"><a href="#然后就是布局布线，添加约束文件。接上板子就ok了。" class="headerlink" title="然后就是布局布线，添加约束文件。接上板子就ok了。"></a>然后就是布局布线，添加约束文件。接上板子就ok了。</h4><p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/category/8778400" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/category/8778400</a></p>
+<h4 id><a href="#" class="headerlink" title></a><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/14.png?raw=true" alt=" "></h4><h4 id="然后就是布局布线，添加约束文件。接上板子就ok了。"><a href="#然后就是布局布线，添加约束文件。接上板子就ok了。" class="headerlink" title="然后就是布局布线，添加约束文件。接上板子就ok了。"></a>然后就是布局布线，添加约束文件。接上板子就ok了。</h4><p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://xuxing0430.github.io/categories/Veirlog/" target="_blank" rel="noopener">Verilog学习</a></p>
 
       
     </div>
@@ -737,87 +821,6 @@ var themeMenus = {};
 
 <p>我的测试数组为2，4，6，8</p>
 <h4 id="所得到的输出为："><a href="#所得到的输出为：" class="headerlink" title="所得到的输出为："></a>所得到的输出为：</h4><p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/13.png?raw=true" alt=" "></p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-      
-            
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-    
-
-  
-    <article id="post-算法图解第三章笔记：递归-java版"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/09/06/算法图解第三章笔记：递归-java版/">算法图解第三章笔记：递归(java版)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/09/06/算法图解第三章笔记：递归-java版/" class="article-date">
-	  <time datetime="2019-09-06T13:33:15.000Z" itemprop="datePublished">September 6, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="3-1-递归"><a href="#3-1-递归" class="headerlink" title="3.1 递归"></a>3.1 递归</h4><h4 id="案例：寻找祖母的钥匙。"><a href="#案例：寻找祖母的钥匙。" class="headerlink" title="案例：寻找祖母的钥匙。"></a>案例：寻找祖母的钥匙。</h4><h4 id="钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？"><a href="#钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？" class="headerlink" title="钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？"></a>钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？</h4><p>方法一：</p>
-<ol>
-<li>创建一个要查找的盒子堆</li>
-<li>从盒子中取出一个盒子，在里面找</li>
-<li>如果找到的是盒子，就将其加入到盒子堆中，以便以后再查找。</li>
-<li>如果找到钥匙，则大功告成</li>
-<li>回到第二步</li>
-</ol>
-<p>方法二</p>
-<ol>
-<li>检查盒子中的每样东西</li>
-<li>如果是盒子，就回到第一步</li>
-<li>如果是钥匙，则大功告成</li>
-</ol>
-<h4 id="第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。"><a href="#第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。" class="headerlink" title="第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。"></a>第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。</h4><h4 id="第二种方法使用递归—函数调用自己。"><a href="#第二种方法使用递归—函数调用自己。" class="headerlink" title="第二种方法使用递归—函数调用自己。"></a>第二种方法使用递归—函数调用自己。</h4><h4 id="两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。"><a href="#两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。" class="headerlink" title="两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。"></a>两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。</h4><h3 id="3-2-基线条件和递归条件"><a href="#3-2-基线条件和递归条件" class="headerlink" title="3.2  基线条件和递归条件"></a>3.2  基线条件和递归条件</h3><p>由于递归函数自己调用自己，因此编写这样的函数时很容易出错，进而导致无限循环。</p>
-<p>例如：假设你要编写一个像下面这样的倒计时函数：</p>
-<p>&gt;3…..2…..1</p>
-<p>可以编写的递归函数如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class Code_02_BaseCase &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		countDown(3);</span><br><span class="line">	&#125;</span><br><span class="line">	/*</span><br><span class="line">	 * 未添加基线条件，所以程序会一直运行下去</span><br><span class="line">	 */</span><br><span class="line">	public static void coutDown(int i)&#123;</span><br><span class="line">		System.out.println(i);</span><br><span class="line">		coutDown(i-1);</span><br><span class="line">	&#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>当你运行时，这个函数会一直运行下去。。。。</p>
-<p>所以编写递归函数时，必须告诉它何时停止递归。正因为如此，每个递归函数都有两部分：基线条件（base case）和递归条件（recursive case）</p>
-<p>给函数countDown添加基线条件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 	设计一个倒计时3、2、1的计时器</span><br><span class="line"> * </span><br><span class="line"> * 	基线条件：</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class Code_02_BaselineCondition &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		countDown(3);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	/*</span><br><span class="line">	 * 添加基线条件</span><br><span class="line">	 */</span><br><span class="line">	public static void countDown(int i)&#123;</span><br><span class="line">		System.out.println(i);</span><br><span class="line">            //基线条件  </span><br><span class="line">		if(i &lt;= 1 )&#123;</span><br><span class="line">			return;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">              //递归条件</span><br><span class="line">              countDown_1(i-1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印输出为：</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/10.png?raw=true" alt="Image"></p>
-<h3 id="3-3-栈"><a href="#3-3-栈" class="headerlink" title="3.3 栈"></a>3.3 栈</h3><p>​    调用栈 call stack</p>
-<p>​    有两种操作：压入（插入）和 弹出（删除并读取）</p>
-<h4 id="1-调用栈："><a href="#1-调用栈：" class="headerlink" title="1.调用栈："></a>1.调用栈：</h4><p>​    一个简单的函数，来看看计算机是如何调用栈的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 	演示计算机是如何调用栈的</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class Code_03_CallStack &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		greet(&quot;John&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void greet(String name)&#123;</span><br><span class="line">		System.out.println(&quot;hello,&quot;+ name + &quot;!&quot;);</span><br><span class="line">		greet2(name);</span><br><span class="line">		System.out.println(&quot;getting ready to say bye....&quot;);</span><br><span class="line">		bye();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void greet2(String name)&#123;</span><br><span class="line">		System.out.println(&quot;how are you, &quot;+ name + &quot;?&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void bye()&#123;</span><br><span class="line">		System.out.println(&quot;ok bye&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印输出为：</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/11.png?raw=true" alt="Image"></p>
-<h4 id="一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。"><a href="#一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。" class="headerlink" title="一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。"></a>一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。</h4><h4 id="2-递归调用栈："><a href="#2-递归调用栈：" class="headerlink" title="2.递归调用栈："></a>2.递归调用栈：</h4><h4 id="递归函数也使用调用栈。下面是一个例子："><a href="#递归函数也使用调用栈。下面是一个例子：" class="headerlink" title="递归函数也使用调用栈。下面是一个例子："></a>递归函数也使用调用栈。下面是一个例子：</h4><h4 id="factorial-5-写作5！其定义如下：5！-5-4-3-2-1"><a href="#factorial-5-写作5！其定义如下：5！-5-4-3-2-1" class="headerlink" title="factorial(5)写作5！其定义如下：5！= 5 * 4 * 3 * 2 * 1"></a>factorial(5)写作5！其定义如下：5！= 5 * 4 * 3 * 2 * 1</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 	递归调用栈：</span><br><span class="line"> * 		递归函数求解</span><br><span class="line"> * 			5！= 5*4*3*2*1</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class Code_04_RecursionCallStack &#123;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		System.out.println(factorical(5));</span><br><span class="line">	&#125;</span><br><span class="line">	/*</span><br><span class="line">	 * 递归函数</span><br><span class="line">	 */</span><br><span class="line">	public static int factorical(int x)&#123;</span><br><span class="line">		//基线条件</span><br><span class="line">		if(x == 1)&#123;</span><br><span class="line">			return 1;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			//递归条件</span><br><span class="line">			return x*factorical(x - 1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印输出为：</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/12.png?raw=true" alt="Image"></p>
 
       
     </div>
@@ -941,6 +944,18 @@ var themeMenus = {};
               <div class="widget-entry-summary" style="margin: 0;">
             
 
+              <h6 style="margin: 0;"><a href="/2020/01/02/算法学习笔记1-面向对象的数组/">算法学习笔记1:面向对象的数组</a></h6>
+              <span>January 2, 2020</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
               <h6 style="margin: 0;"><a href="/2019/12/30/Veirlog学习记录-6-数字频率计的设计与实现-附完整工程/">Veirlog学习记录-6-数字频率计的设计与实现(附完整工程)</a></h6>
               <span>December 30, 2019</span>
             </div>
@@ -995,18 +1010,6 @@ var themeMenus = {};
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/10/02/阿里云Ubuntu18-04服务器安装Mono-C-开发环境/">阿里云Ubuntu18.04服务器安装Mono_C#开发环境</a></h6>
-              <span>October 2, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1016,7 +1019,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Veirlog/">Veirlog</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tensorlfow-GPU/">tensorlfow-GPU</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Matlab/">Matlab</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Veirlog/">Veirlog</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tensorlfow-GPU/">tensorlfow-GPU</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/云服务器/">云服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1026,7 +1029,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Veirlog/">Veirlog</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu/">gpu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu-tensorlfow/">gpu tensorlfow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/">socket</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/">tensorflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win10/">win10</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Veirlog/">Veirlog</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu/">gpu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu-tensorlfow/">gpu tensorlfow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java教程-算法-数组/">java教程 算法 数组</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab-网络节点-随机攻击/">matlab 网络节点 随机攻击</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/">socket</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/">tensorflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win10/">win10</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器-ubuntu-mono-c/">云服务器 ubuntu mono c#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1036,7 +1039,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Veirlog/" style="font-size: 20px;">Veirlog</a> <a href="/tags/gpu/" style="font-size: 10px;">gpu</a> <a href="/tags/gpu-tensorlfow/" style="font-size: 10px;">gpu tensorlfow</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/win10/" style="font-size: 10px;">win10</a> <a href="/tags/云服务器/" style="font-size: 10px;">云服务器</a> <a href="/tags/阿里云/" style="font-size: 10px;">阿里云</a>
+      <a href="/tags/Veirlog/" style="font-size: 20px;">Veirlog</a> <a href="/tags/gpu/" style="font-size: 10px;">gpu</a> <a href="/tags/gpu-tensorlfow/" style="font-size: 10px;">gpu tensorlfow</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/java教程-算法-数组/" style="font-size: 10px;">java教程 算法 数组</a> <a href="/tags/matlab-网络节点-随机攻击/" style="font-size: 15px;">matlab 网络节点 随机攻击</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/win10/" style="font-size: 10px;">win10</a> <a href="/tags/云服务器/" style="font-size: 10px;">云服务器</a> <a href="/tags/云服务器-ubuntu-mono-c/" style="font-size: 10px;">云服务器 ubuntu mono c#</a> <a href="/tags/阿里云/" style="font-size: 10px;">阿里云</a>
     </div>
   </div>
 
@@ -1046,7 +1049,7 @@ var themeMenus = {};
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -1060,7 +1063,7 @@ var themeMenus = {};
 
   <div class="clearfix container">
       <div class="site-info">
-	      &copy; 2019 XuXing&#39;s blog All Rights Reserved.
+	      &copy; 2020 XuXing&#39;s blog All Rights Reserved.
           
             <span id="busuanzi_container_site_uv">
               本站访客数<span id="busuanzi_value_site_uv"></span>人次  

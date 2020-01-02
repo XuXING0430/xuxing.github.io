@@ -30,7 +30,7 @@
 <meta property="og:description" content="移位寄存器的设计：    有三个模式：  左循环  右循环  加载预置的数  具体功能可以根据需要对程序做出一些修改即可 代码如下：   12345678910111213141516171819module shift1(clk,D,MD,QB);    input clk;  //时钟信号    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取    inp">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/5.png?raw=true">
-<meta property="og:updated_time" content="2019-10-06T08:47:23.536Z">
+<meta property="og:updated_time" content="2019-12-30T02:37:08.205Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Veirlog学习记录(3)--移位寄存器(左循环，右循环)的实现">
 <meta name="twitter:description" content="移位寄存器的设计：    有三个模式：  左循环  右循环  加载预置的数  具体功能可以根据需要对程序做出一些修改即可 代码如下：   12345678910111213141516171819module shift1(clk,D,MD,QB);    input clk;  //时钟信号    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取    inp">
@@ -208,7 +208,7 @@ var themeMenus = {};
 <p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/5.png?raw=true" alt=" "></p>
 <p>这里图形没有从一开始截取，而是选择能看到三个模式效果的时间段，MD=0时，一直在加载预置数，输出等于D 11110000.MD=1时，开始循环左移。MD=2时，开始循环右移。</p>
 <p><strong>基本的设计就是这样子，可以在它的基础上进行改进，以达到大家需要的功能，比如在shift1中的case加几个模式。D的值也可以随便赋值。</strong></p>
-<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/category/8778400" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/category/8778400</a></p>
+<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://xuxing0430.github.io/categories/Veirlog/" target="_blank" rel="noopener">Verilog学习</a></p>
 
       
     </div>
@@ -305,7 +305,7 @@ var a = new Donate({
 
   <div class="clearfix container">
       <div class="site-info">
-	      &copy; 2019 XuXing&#39;s blog All Rights Reserved.
+	      &copy; 2020 XuXing&#39;s blog All Rights Reserved.
           
             <span id="busuanzi_container_site_uv">
               本站访客数<span id="busuanzi_value_site_uv"></span>人次  
