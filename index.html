@@ -370,6 +370,71 @@ var themeMenus = {};
     
 
   
+    <article id="post-matlab实现随机攻击网络节点-蓄意攻击网络节点-2"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/12/20/matlab实现随机攻击网络节点-蓄意攻击网络节点-2/">matlab实现随机攻击网络节点+蓄意攻击网络节点(2)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2019/12/20/matlab实现随机攻击网络节点-蓄意攻击网络节点-2/" class="article-date">
+	  <time datetime="2019-12-20T00:41:36.000Z" itemprop="datePublished">December 20, 2019</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>﻿上一篇介绍了随机攻击网络节点与蓄意攻击节点的基本方法。<strong>上一篇文章</strong>地址：<a href="https://xuxing0430.github.io/2019/12/13/matlab%E5%AE%9E%E7%8E%B0%E9%9A%8F%E6%9C%BA%E6%94%BB%E5%87%BB%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9-%E8%93%84%E6%84%8F%E6%94%BB%E5%87%BB%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9/" target="_blank" rel="noopener">matlab实现随机攻击网络节点+蓄意攻击网络节点（1）</a></p>
+<p>其中随机攻击的部分还有一些瑕疵，就是在实际的研究中，需要对网络进行<strong>多次</strong>（数十次甚至上百次）攻击后取指标变化平均值，这样的<strong>实验数据</strong>才具有一定的说服力。</p>
+<p>其实这个问题乍一听起来，原理也比较简单：<strong>就是让一个程序运行指定的次数然后，累加程序中某一个变量后取平均值</strong>。</p>
+<p>实现起来也并不费劲，<strong>首先就是把这个程序定义为一个函数，然后把所需要累加的变量作为函数的返回值。然后在另一个文件中创建循环，在循环中调用该函数，用一个变量接收该函数的返回值，以达到累加的效果，最后在循环外部取一个平均值即可。</strong></p>
+<p><strong>代码如下所示：</strong></p>
+<p><strong>定义函数文件名称（该名称需要与函数名称相同）</strong></p>
+<p><strong>函数的参数介绍：</strong></p>
+<p><strong>输入值</strong>： <strong>str</strong>：意为数据文件的路径；<strong>numDelete</strong>:删除节点的个数（这里的命名只是为了方便并不是必选项）<br><strong>返回值</strong>：<strong>Eglob</strong>，即网络效率值的数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">function Eglob = ATestAver(str,numDelete)</span><br><span class="line">%输入 ： </span><br><span class="line">%        str：意为数据文件的路径</span><br><span class="line">%        numDelete:删除节点的个数</span><br><span class="line"></span><br><span class="line">%返回值：Eglob，即网络效率值的数组</span><br><span class="line"></span><br><span class="line">%加载数据文件</span><br><span class="line">load(str);</span><br><span class="line"></span><br><span class="line">Name_Struct = Node_Key_Sort_Descend;       %  Name_Struct 数据集名称，更换网络数据集时，需要更改此处结构体名称</span><br><span class="line">A_Init =  Name_Struct.Adjacent_Matrix;      %% 网络邻接矩阵</span><br><span class="line">N_Init = size(A_Init,1);                     %% 节点个数</span><br><span class="line"></span><br><span class="line">NetEff_Init = zeros(1,numDelete);</span><br><span class="line">Struct_Init = struct(&apos;Deg&apos;,NetEff_Init);</span><br><span class="line"></span><br><span class="line">% 初始网络性能</span><br><span class="line">%生成随机数，以此进行随机攻</span><br><span class="line">Name_Struct.Node_Key_Degree = randperm(440);</span><br><span class="line"></span><br><span class="line">%% </span><br><span class="line">%  按照 Degree 算法排序，删除节点</span><br><span class="line">A = A_Init;          %% 网络邻接矩阵 A</span><br><span class="line">for i = 1:numDelete</span><br><span class="line">    A( Name_Struct.Node_Key_Degree(i),: ) = 0;     %% 删除节点 Node_Key_Degree(i),用 0 占位，不能置空</span><br><span class="line">    A( :,Name_Struct.Node_Key_Degree(i) ) = 0;</span><br><span class="line">    AA = A;</span><br><span class="line">    AA( sum(A)==0,: ) = [];</span><br><span class="line">    AA( :,sum(A)==0 ) = [];</span><br><span class="line">    Con_Index_NetEff = testEglob( AA );</span><br><span class="line"></span><br><span class="line">    Eglob(i) = Con_Index_NetEff.Net_Eff_Mymod;          </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p><strong>定义测试文件：</strong></p>
+<p>  <strong>文件中需要定义随机攻击的次数和随机攻击节点的个数，具体参数设置应视具体网络而定。<br>  在调用函数时，要传入文件路径，和删除节点的个数。</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">%定义随机攻击节点的个数，具体数值根据网络规模拟定</span><br><span class="line">numDelete = 22;</span><br><span class="line"></span><br><span class="line">%定义网络效率初始矩阵</span><br><span class="line">netSum = zeros(1,numDelete);</span><br><span class="line"></span><br><span class="line">%定义随机攻击的次数，也就是函数循环的次数</span><br><span class="line">numRandom = 50;</span><br><span class="line">for i=1:numRandom</span><br><span class="line">    </span><br><span class="line">    %把得到的网络效率数组赋给netI</span><br><span class="line">    netI = ATestAver(&apos;Data\12_15jiaQuanData.mat&apos;,numDelete);</span><br><span class="line">    %累加</span><br><span class="line">    netSum = netSum + netI;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">%求出平均值</span><br><span class="line">netAver = netSum/numRandom;</span><br></pre></td></tr></table></figure>
+
+<p>我的测试数据具有<strong>小世界特性与无标度特性</strong>。并得到了以下的<strong>结果</strong>:<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_12/2.png?raw=true" alt="例子"><br><strong>大家可以看出，经过多次随机攻击取指标平均值之后，曲线近似于一条直线，下降速率较小且符合实际的网络情况。验证了无标度网络对于随机攻击拥有较好的鲁棒性。</strong></p>
+<p>希望本文对大家有所帮助，有任何问题或者是建议，欢迎大家与我交流。</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/matlab/">matlab</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/matlab/">matlab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络节点/">网络节点</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随机攻击/">随机攻击</a></li></ul>
+
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
+  
     <article id="post-matlab实现随机攻击网络节点-蓄意攻击网络节点"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -781,93 +846,6 @@ var themeMenus = {};
     
 
   
-    <article id="post-算法图解第三章笔记：递归-java版"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/09/06/算法图解第三章笔记：递归-java版/">算法图解第三章笔记：递归(java版)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/09/06/算法图解第三章笔记：递归-java版/" class="article-date">
-	  <time datetime="2019-09-06T13:33:15.000Z" itemprop="datePublished">September 6, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="3-1-递归"><a href="#3-1-递归" class="headerlink" title="3.1 递归"></a>3.1 递归</h4><h4 id="案例：寻找祖母的钥匙。"><a href="#案例：寻找祖母的钥匙。" class="headerlink" title="案例：寻找祖母的钥匙。"></a>案例：寻找祖母的钥匙。</h4><h4 id="钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？"><a href="#钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？" class="headerlink" title="钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？"></a>钥匙在祖母的盒子里，一个大盒子中有很多小盒子，小盒子中也可能还有盒子。钥匙就在某个盒子中。如何找到钥匙？</h4><p>方法一：</p>
-<ol>
-<li>创建一个要查找的盒子堆</li>
-<li>从盒子中取出一个盒子，在里面找</li>
-<li>如果找到的是盒子，就将其加入到盒子堆中，以便以后再查找。</li>
-<li>如果找到钥匙，则大功告成</li>
-<li>回到第二步</li>
-</ol>
-<p>方法二</p>
-<ol>
-<li>检查盒子中的每样东西</li>
-<li>如果是盒子，就回到第一步</li>
-<li>如果是钥匙，则大功告成</li>
-</ol>
-<h4 id="第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。"><a href="#第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。" class="headerlink" title="第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。"></a>第一种方法使用while循环：只要盒子堆不空，就从中取一个盒子，并在其中仔细查找。</h4><h4 id="第二种方法使用递归—函数调用自己。"><a href="#第二种方法使用递归—函数调用自己。" class="headerlink" title="第二种方法使用递归—函数调用自己。"></a>第二种方法使用递归—函数调用自己。</h4><h4 id="两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。"><a href="#两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。" class="headerlink" title="两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。"></a>两种方法作用相同。递归只是让解决方案更加清晰，并没有性能上的优势。有一句是这样说的：“如果使用循环，程序的性能可能更高；如果使用递归。程序可能更容易理解。如何选择要看什么对你来说更重要”。</h4><h3 id="3-2-基线条件和递归条件"><a href="#3-2-基线条件和递归条件" class="headerlink" title="3.2  基线条件和递归条件"></a>3.2  基线条件和递归条件</h3><p>由于递归函数自己调用自己，因此编写这样的函数时很容易出错，进而导致无限循环。</p>
-<p>例如：假设你要编写一个像下面这样的倒计时函数：</p>
-<p>&gt;3…..2…..1</p>
-<p>可以编写的递归函数如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class Code_02_BaseCase &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		countDown(3);</span><br><span class="line">	&#125;</span><br><span class="line">	/*</span><br><span class="line">	 * 未添加基线条件，所以程序会一直运行下去</span><br><span class="line">	 */</span><br><span class="line">	public static void coutDown(int i)&#123;</span><br><span class="line">		System.out.println(i);</span><br><span class="line">		coutDown(i-1);</span><br><span class="line">	&#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>当你运行时，这个函数会一直运行下去。。。。</p>
-<p>所以编写递归函数时，必须告诉它何时停止递归。正因为如此，每个递归函数都有两部分：基线条件（base case）和递归条件（recursive case）</p>
-<p>给函数countDown添加基线条件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 	设计一个倒计时3、2、1的计时器</span><br><span class="line"> * </span><br><span class="line"> * 	基线条件：</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class Code_02_BaselineCondition &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		countDown(3);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	/*</span><br><span class="line">	 * 添加基线条件</span><br><span class="line">	 */</span><br><span class="line">	public static void countDown(int i)&#123;</span><br><span class="line">		System.out.println(i);</span><br><span class="line">            //基线条件  </span><br><span class="line">		if(i &lt;= 1 )&#123;</span><br><span class="line">			return;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">              //递归条件</span><br><span class="line">              countDown_1(i-1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印输出为：</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/10.png?raw=true" alt="Image"></p>
-<h3 id="3-3-栈"><a href="#3-3-栈" class="headerlink" title="3.3 栈"></a>3.3 栈</h3><p>​    调用栈 call stack</p>
-<p>​    有两种操作：压入（插入）和 弹出（删除并读取）</p>
-<h4 id="1-调用栈："><a href="#1-调用栈：" class="headerlink" title="1.调用栈："></a>1.调用栈：</h4><p>​    一个简单的函数，来看看计算机是如何调用栈的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 	演示计算机是如何调用栈的</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class Code_03_CallStack &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		greet(&quot;John&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void greet(String name)&#123;</span><br><span class="line">		System.out.println(&quot;hello,&quot;+ name + &quot;!&quot;);</span><br><span class="line">		greet2(name);</span><br><span class="line">		System.out.println(&quot;getting ready to say bye....&quot;);</span><br><span class="line">		bye();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void greet2(String name)&#123;</span><br><span class="line">		System.out.println(&quot;how are you, &quot;+ name + &quot;?&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void bye()&#123;</span><br><span class="line">		System.out.println(&quot;ok bye&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印输出为：</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/11.png?raw=true" alt="Image"></p>
-<h4 id="一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。"><a href="#一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。" class="headerlink" title="一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。"></a>一个重要的概念：调用另一个函数时，当前函数暂停并处于未完成的状态。</h4><h4 id="2-递归调用栈："><a href="#2-递归调用栈：" class="headerlink" title="2.递归调用栈："></a>2.递归调用栈：</h4><h4 id="递归函数也使用调用栈。下面是一个例子："><a href="#递归函数也使用调用栈。下面是一个例子：" class="headerlink" title="递归函数也使用调用栈。下面是一个例子："></a>递归函数也使用调用栈。下面是一个例子：</h4><h4 id="factorial-5-写作5！其定义如下：5！-5-4-3-2-1"><a href="#factorial-5-写作5！其定义如下：5！-5-4-3-2-1" class="headerlink" title="factorial(5)写作5！其定义如下：5！= 5 * 4 * 3 * 2 * 1"></a>factorial(5)写作5！其定义如下：5！= 5 * 4 * 3 * 2 * 1</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 	递归调用栈：</span><br><span class="line"> * 		递归函数求解</span><br><span class="line"> * 			5！= 5*4*3*2*1</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class Code_04_RecursionCallStack &#123;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		System.out.println(factorical(5));</span><br><span class="line">	&#125;</span><br><span class="line">	/*</span><br><span class="line">	 * 递归函数</span><br><span class="line">	 */</span><br><span class="line">	public static int factorical(int x)&#123;</span><br><span class="line">		//基线条件</span><br><span class="line">		if(x == 1)&#123;</span><br><span class="line">			return 1;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			//递归条件</span><br><span class="line">			return x*factorical(x - 1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印输出为：</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/12.png?raw=true" alt="Image"></p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-	<span class="ico-folder"></span>
-    <a class="article-category-link" href="/categories/算法/">算法</a>, <a class="article-category-link" href="/categories/算法/java/">java</a>
-
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/递归/">递归</a></li></ul>
-
-      
-            
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-    
-
-  
 
 
   <nav id="page-nav">
@@ -1008,6 +986,18 @@ var themeMenus = {};
               <div class="widget-entry-summary" style="margin: 0;">
             
 
+              <h6 style="margin: 0;"><a href="/2019/12/20/matlab实现随机攻击网络节点-蓄意攻击网络节点-2/">matlab实现随机攻击网络节点+蓄意攻击网络节点(2)</a></h6>
+              <span>December 20, 2019</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
               <h6 style="margin: 0;"><a href="/2019/12/13/matlab实现随机攻击网络节点-蓄意攻击网络节点/">matlab实现随机攻击网络节点+蓄意攻击网络节点(1)附github完整工程地址</a></h6>
               <span>December 13, 2019</span>
             </div>
@@ -1026,18 +1016,6 @@ var themeMenus = {};
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/10/02/阿里云Ubuntu18-04服务器安装Mono-C-开发环境/">阿里云Ubuntu18.04服务器安装Mono_C#开发环境</a></h6>
-              <span>October 2, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1047,7 +1025,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Veirlog/">Veirlog</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/matlab/">matlab</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tensorlfow/">tensorlfow</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/云服务器/">云服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/java/">java</a><span class="category-list-count">4</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Veirlog/">Veirlog</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/matlab/">matlab</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tensorlfow/">tensorlfow</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/云服务器/">云服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/java/">java</a><span class="category-list-count">4</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1057,7 +1035,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMD/">AMD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROCm/">ROCm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Veirlog/">Veirlog</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu/">gpu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/idea/">idea</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javac/">javac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java教程/">java教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mono/">mono</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/">socket</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/">tensorflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorlfow/">tensorlfow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win10/">win10</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/串口/">串口</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分查找/">二分查找</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/寄存器/">寄存器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快速排序/">快速排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字频率计/">数字频率计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数码管/">数码管</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数组/">数组</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络节点/">网络节点</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计数器/">计数器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/输入法/">输入法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择排序/">选择排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随机攻击/">随机攻击</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMD/">AMD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROCm/">ROCm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Veirlog/">Veirlog</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu/">gpu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/idea/">idea</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javac/">javac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java教程/">java教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mono/">mono</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/">socket</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/">tensorflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorlfow/">tensorlfow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win10/">win10</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/串口/">串口</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分查找/">二分查找</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/寄存器/">寄存器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快速排序/">快速排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字频率计/">数字频率计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数码管/">数码管</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数组/">数组</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络节点/">网络节点</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计数器/">计数器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/输入法/">输入法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择排序/">选择排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随机攻击/">随机攻击</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -1067,7 +1045,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AMD/" style="font-size: 10px;">AMD</a> <a href="/tags/FPGA/" style="font-size: 15px;">FPGA</a> <a href="/tags/ROCm/" style="font-size: 10px;">ROCm</a> <a href="/tags/Veirlog/" style="font-size: 17.5px;">Veirlog</a> <a href="/tags/c/" style="font-size: 10px;">c#</a> <a href="/tags/gpu/" style="font-size: 12.5px;">gpu</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javac/" style="font-size: 10px;">javac</a> <a href="/tags/java教程/" style="font-size: 12.5px;">java教程</a> <a href="/tags/matlab/" style="font-size: 10px;">matlab</a> <a href="/tags/mono/" style="font-size: 10px;">mono</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/tensorlfow/" style="font-size: 10px;">tensorlfow</a> <a href="/tags/ubuntu/" style="font-size: 12.5px;">ubuntu</a> <a href="/tags/win10/" style="font-size: 10px;">win10</a> <a href="/tags/串口/" style="font-size: 10px;">串口</a> <a href="/tags/二分查找/" style="font-size: 10px;">二分查找</a> <a href="/tags/云服务器/" style="font-size: 12.5px;">云服务器</a> <a href="/tags/寄存器/" style="font-size: 10px;">寄存器</a> <a href="/tags/快速排序/" style="font-size: 10px;">快速排序</a> <a href="/tags/数字频率计/" style="font-size: 10px;">数字频率计</a> <a href="/tags/数码管/" style="font-size: 10px;">数码管</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a> <a href="/tags/网络节点/" style="font-size: 10px;">网络节点</a> <a href="/tags/计数器/" style="font-size: 12.5px;">计数器</a> <a href="/tags/输入法/" style="font-size: 10px;">输入法</a> <a href="/tags/选择排序/" style="font-size: 10px;">选择排序</a> <a href="/tags/递归/" style="font-size: 10px;">递归</a> <a href="/tags/阿里云/" style="font-size: 10px;">阿里云</a> <a href="/tags/随机攻击/" style="font-size: 10px;">随机攻击</a>
+      <a href="/tags/AMD/" style="font-size: 10px;">AMD</a> <a href="/tags/FPGA/" style="font-size: 15px;">FPGA</a> <a href="/tags/ROCm/" style="font-size: 10px;">ROCm</a> <a href="/tags/Veirlog/" style="font-size: 17.5px;">Veirlog</a> <a href="/tags/c/" style="font-size: 10px;">c#</a> <a href="/tags/gpu/" style="font-size: 12.5px;">gpu</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javac/" style="font-size: 10px;">javac</a> <a href="/tags/java教程/" style="font-size: 12.5px;">java教程</a> <a href="/tags/matlab/" style="font-size: 12.5px;">matlab</a> <a href="/tags/mono/" style="font-size: 10px;">mono</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/tensorlfow/" style="font-size: 10px;">tensorlfow</a> <a href="/tags/ubuntu/" style="font-size: 12.5px;">ubuntu</a> <a href="/tags/win10/" style="font-size: 10px;">win10</a> <a href="/tags/串口/" style="font-size: 10px;">串口</a> <a href="/tags/二分查找/" style="font-size: 10px;">二分查找</a> <a href="/tags/云服务器/" style="font-size: 12.5px;">云服务器</a> <a href="/tags/寄存器/" style="font-size: 10px;">寄存器</a> <a href="/tags/快速排序/" style="font-size: 10px;">快速排序</a> <a href="/tags/数字频率计/" style="font-size: 10px;">数字频率计</a> <a href="/tags/数码管/" style="font-size: 10px;">数码管</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a> <a href="/tags/网络节点/" style="font-size: 12.5px;">网络节点</a> <a href="/tags/计数器/" style="font-size: 12.5px;">计数器</a> <a href="/tags/输入法/" style="font-size: 10px;">输入法</a> <a href="/tags/选择排序/" style="font-size: 10px;">选择排序</a> <a href="/tags/递归/" style="font-size: 10px;">递归</a> <a href="/tags/阿里云/" style="font-size: 10px;">阿里云</a> <a href="/tags/随机攻击/" style="font-size: 12.5px;">随机攻击</a>
     </div>
   </div>
 
@@ -1077,7 +1055,7 @@ var themeMenus = {};
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
