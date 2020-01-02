@@ -16,13 +16,13 @@
   <title>veirlog学习记录-5-循环移位数码管的设计与实现 | XuXing&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Veirlog">
+  <meta name="keywords" content="VeirlogFPGA数码管">
   
   
   
   
   <meta name="description" content="实现功能：在开发板的数码管上显示特定数字，并且让这些数字循环移位。 总体框图如下： 代码如下： 分频模块： 1234567891011121314module div(    input clk, //输入自带的系统时钟(100Mhz)    input rst, //复位    output scan_clk //输出时钟，用于驱动数码管，让其动态扫描用    );    reg [19:0]">
-<meta name="keywords" content="Veirlog">
+<meta name="keywords" content="Veirlog,FPGA,数码管">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Veirlog学习记录-5-循环移位数码管的设计与实现">
 <meta property="og:url" content="http://yoursite.com/2019/12/30/Veirlog学习记录-5-循环移位数码管的设计与实现/index.html">
@@ -31,7 +31,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2019050910072775.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg3NzEzOQ==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190509101008687.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg3NzEzOQ==,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-12-30T02:26:48.699Z">
+<meta property="og:updated_time" content="2020-01-02T08:22:26.234Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Veirlog学习记录-5-循环移位数码管的设计与实现">
 <meta name="twitter:description" content="实现功能：在开发板的数码管上显示特定数字，并且让这些数字循环移位。 总体框图如下： 代码如下： 分频模块： 1234567891011121314module div(    input clk, //输入自带的系统时钟(100Mhz)    input rst, //复位    output scan_clk //输出时钟，用于驱动数码管，让其动态扫描用    );    reg [19:0]">
@@ -215,7 +215,7 @@ var themeMenus = {};
 
       
   <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Veirlog/">Veirlog</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FPGA/">FPGA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Veirlog/">Veirlog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数码管/">数码管</a></li></ul>
 
       
         <div id="donation_div"></div>
@@ -273,9 +273,9 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2019/12/20/matlab实现随机攻击网络节点-蓄意攻击网络节点-2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/12/13/matlab实现随机攻击网络节点-蓄意攻击网络节点/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">matlab实现随机攻击网络节点+蓄意攻击网络节点(2)</div>
+      <div class="article-nav-title">matlab实现随机攻击网络节点+蓄意攻击网络节点(1)附github完整工程地址</div>
     </a>
   
 </nav>
