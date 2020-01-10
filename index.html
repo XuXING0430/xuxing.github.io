@@ -394,7 +394,12 @@ var themeMenus = {};
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>﻿上一篇介绍了随机攻击网络节点与蓄意攻击节点的基本方法。<strong>上一篇文章</strong>地址：<a href="https://xuxing0430.github.io/2019/12/13/matlab%E5%AE%9E%E7%8E%B0%E9%9A%8F%E6%9C%BA%E6%94%BB%E5%87%BB%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9-%E8%93%84%E6%84%8F%E6%94%BB%E5%87%BB%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9/" target="_blank" rel="noopener">matlab实现随机攻击网络节点+蓄意攻击网络节点（1）</a></p>
+        <p><strong>更新：</strong> </p>
+<p>有同学反馈说：网络效率的函数可能有点问题。可以试试这个<a href="https://pan.baidu.com/s/1PWMNafuW8pZq5c-q2nz8Og" target="_blank" rel="noopener">网络效率函数</a>，对应的部分改一下就可以了。 </p>
+<p>还有最大连通子图比例函数：<a href="https://pan.baidu.com/s/1lgXTb1OG0-vRNXHa9mJ7Sw" target="_blank" rel="noopener">最大连通子图比例函数</a> </p>
+<hr>
+<p>﻿</p>
+<p>上一篇介绍了随机攻击网络节点与蓄意攻击节点的基本方法。<strong>上一篇文章</strong>地址：<a href="https://xuxing0430.github.io/2019/12/13/matlab%E5%AE%9E%E7%8E%B0%E9%9A%8F%E6%9C%BA%E6%94%BB%E5%87%BB%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9-%E8%93%84%E6%84%8F%E6%94%BB%E5%87%BB%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9/" target="_blank" rel="noopener">matlab实现随机攻击网络节点+蓄意攻击网络节点（1）</a></p>
 <p>其中随机攻击的部分还有一些瑕疵，就是在实际的研究中，需要对网络进行<strong>多次</strong>（数十次甚至上百次）攻击后取指标变化平均值，这样的<strong>实验数据</strong>才具有一定的说服力。</p>
 <p>其实这个问题乍一听起来，原理也比较简单：<strong>就是让一个程序运行指定的次数然后，累加程序中某一个变量后取平均值</strong>。</p>
 <p>实现起来也并不费劲，<strong>首先就是把这个程序定义为一个函数，然后把所需要累加的变量作为函数的返回值。然后在另一个文件中创建循环，在循环中调用该函数，用一个变量接收该函数的返回值，以达到累加的效果，最后在循环外部取一个平均值即可。</strong></p>
@@ -459,7 +464,11 @@ var themeMenus = {};
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>在研究网络的鲁棒性的时候，我们往往会通过随机与蓄意攻击网络节点，观察网络效率的下降比例来进行网络特性的研究。</strong></p>
+        <p><strong>更新：</strong> </p>
+<p>有同学反馈说：网络效率的函数可能有点问题。可以试试这个<a href="https://pan.baidu.com/s/1PWMNafuW8pZq5c-q2nz8Og" target="_blank" rel="noopener">网络效率函数</a>，对应的部分改一下就可以了。 </p>
+<p>还有最大连通子图比例函数：<a href="https://pan.baidu.com/s/1lgXTb1OG0-vRNXHa9mJ7Sw" target="_blank" rel="noopener">最大连通子图比例函数</a> </p>
+<hr>
+<p><strong>在研究网络的鲁棒性的时候，我们往往会通过随机与蓄意攻击网络节点，观察网络效率的下降比例来进行网络特性的研究。</strong></p>
 <p>常见的指标有：<strong>最大连通子图比例、网络效率、平均距离</strong>等等。<br>这三个指标是不同的，但是实现随机攻击与蓄意攻击的<strong>原理是相同的</strong>，这里以按照<strong>节点度</strong>攻击的<strong>网络效率</strong>变化为例（其他两个指标就是函数不同，想按照其他节点重要度排序指标，也是类似的，只需要按照想要的排序方法得出节点的排序即可）。</p>
 <p>就是按照节点的重要性排序，通过循环来删除节点。把临界矩阵中节点对应的行和列先置0，然后再删除。每删除一次节点，就生成了一个新的邻接矩阵，然后每一次都通过testEglob函数计算出当前的网络效率值。</p>
 <p>首先需要准备的数据如下：</p>
