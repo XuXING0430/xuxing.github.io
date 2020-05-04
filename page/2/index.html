@@ -153,6 +153,83 @@ var themeMenus = {};
         
           <section id="main">
   
+    <article id="post-算法图解第二章笔记：快速排序1（java版）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/09/10/算法图解第二章笔记：快速排序1（java版）/">算法图解第四章笔记：快速排序1（java版）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2019/09/10/算法图解第二章笔记：快速排序1（java版）/" class="article-date">
+	  <time datetime="2019-09-10T00:54:19.000Z" itemprop="datePublished">September 10, 2019</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="分而治之（D-amp-C）一种著名的递归式问题的解决方法。"><a href="#分而治之（D-amp-C）一种著名的递归式问题的解决方法。" class="headerlink" title="分而治之（D&amp;C）一种著名的递归式问题的解决方法。"></a>分而治之（D&amp;C）一种著名的递归式问题的解决方法。</h3><h4 id="案例：农场主分地问题："><a href="#案例：农场主分地问题：" class="headerlink" title="案例：农场主分地问题："></a>案例：农场主分地问题：</h4><h4 id="要求：要将这块地均匀分成方块，且分出的方块尽可能大。"><a href="#要求：要将这块地均匀分成方块，且分出的方块尽可能大。" class="headerlink" title="要求：要将这块地均匀分成方块，且分出的方块尽可能大。"></a>要求：要将这块地均匀分成方块，且分出的方块尽可能大。</h4><p>步骤：（1）找出基线条件，这种条件必须尽可能的简单</p>
+<p>​    （2）不断将问题分解（或者说是缩小规模），直到符合基线条件</p>
+<h4 id="这个案例很有意思，而且后面的顿悟时刻：为何不对余下的那一块小块地使用相同的算法呢？这正是递归的核心思想啊。"><a href="#这个案例很有意思，而且后面的顿悟时刻：为何不对余下的那一块小块地使用相同的算法呢？这正是递归的核心思想啊。" class="headerlink" title="这个案例很有意思，而且后面的顿悟时刻：为何不对余下的那一块小块地使用相同的算法呢？这正是递归的核心思想啊。"></a>这个案例很有意思，而且后面的顿悟时刻：为何不对余下的那一块小块地使用相同的算法呢？这正是递归的核心思想啊。</h4><h4 id="另一个小例子："><a href="#另一个小例子：" class="headerlink" title="另一个小例子："></a>另一个小例子：</h4><p>​    给定一个数组：2，4，6</p>
+<p>​    需要将这些数字相加，并返回结果。使用循环很容易。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static int sum(int[] arr)&#123;</span><br><span class="line">		int total = 0;</span><br><span class="line">		for(int i = 0;i &lt; arr.length ; i++)&#123;</span><br><span class="line">			total += arr[i];</span><br><span class="line">		&#125;</span><br><span class="line">		return total;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何用递归完成这种任务呢？"><a href="#如何用递归完成这种任务呢？" class="headerlink" title="如何用递归完成这种任务呢？"></a>如何用递归完成这种任务呢？</h4><p>第一步：找出基线条件。最简单的数组：不包含任何元素或只包含元素，这样计算总和非常容易。</p>
+<p>第二步：每次递归调用都必须离空数组更进一步。</p>
+<p>那么如何缩小问题的规模呢？给sum传递的数组更短。</p>
+<p>练习：</p>
+<h3 id="4-1-实现前述sum函数"><a href="#4-1-实现前述sum函数" class="headerlink" title="4.1:实现前述sum函数"></a>4.1:实现前述sum函数</h3><p>分析：这个问题基线条件比较清晰，不太清晰的点其实是递归条件，如何让数组离空数组更近一步呢？一开始我想的是，把数组截取，让数组长度每次调用都减一。其实这样想就有点偏差了，因为让数组变成空数组，其实并不是真的让数组逐渐的变为空数组，其实一直都是原来的数组，只不过每次调用的元素都是数组中的不同元素。下面的代码可能会更加帮助理解递归条件：</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">	 * 练习4.1：利用递归求和：</span><br><span class="line">	 * 		基线条件： 最简单的数组：不包含任何元素或者只包含一个元素</span><br><span class="line">	 * 		递归条件： 给函数传递的数组越来越短</span><br><span class="line">	 * </span><br><span class="line">	 */</span><br><span class="line">	public static int sum_1(int[] arr,int n)&#123;</span><br><span class="line">            //基线条件</span><br><span class="line">            if( n == 0 )&#123;</span><br><span class="line">                return arr[n];</span><br><span class="line">           &#125;else&#123;</span><br><span class="line">               return arr[n] + sum_1(arr,n-1);</span><br><span class="line">		&#125;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-2：编写一个递归函数来计算列表包含的元素数"><a href="#4-2：编写一个递归函数来计算列表包含的元素数" class="headerlink" title="4.2：编写一个递归函数来计算列表包含的元素数"></a>4.2：编写一个递归函数来计算列表包含的元素数</h3><p>分析：乍一看这个问题和4.1不太一样，但是如果数组中每个元素的值都是1的话，是不是这时候求数组的和，得到的就是列表中所包含的元素数。所以只需要把上述的代码稍做修改即可。</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">	 * 练习4.2：编写函数来计算列表所包含的元素数</span><br><span class="line">	 * </span><br><span class="line">	 */</span><br><span class="line">	public static int countNumbers(int[] arr,int n)&#123;</span><br><span class="line">            //判断数组是否为空</span><br><span class="line">            if(arr.length == 0)&#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">              //基线条件</span><br><span class="line">		else if(n == 0)&#123;</span><br><span class="line">			return 1;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			return 1 + countNumbers(arr, n-1);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3：找出列表中最大的数字"><a href="#4-3：找出列表中最大的数字" class="headerlink" title="4.3：找出列表中最大的数字"></a>4.3：找出列表中最大的数字</h3><p>分析：这个问题就比前两个深化一些了，要找出列表中的最大值，其实有很多方法。如果用递归去做，其实还是要考虑基线条件和递归条件。和前两个问题类似，递归条件还是想让传入的数组的长度原来越短，换句话说就是，想要比较的元素数越来越少。这里可以把一个数组分割成为两个，通过数组的下标做判断。左数组找出一个最大值，右数组找一个最大值，再进行比较，返回大的那个。</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static int findMax(int[] arr,int leftIndex,int rightIndex)&#123;</span><br><span class="line">            //基线条件</span><br><span class="line">		if(leftIndex == rightIndex)&#123;</span><br><span class="line">			return arr[leftIndex];</span><br><span class="line">		&#125;</span><br><span class="line">             //这种方式求得mid不会溢出</span><br><span class="line">		int mid = leftIndex + (rightIndex -leftIndex)/2;</span><br><span class="line">		int maxLeft = findMax(arr,leftIndex,mid);</span><br><span class="line">		int maxRight = findMax(arr,mid+1,rightIndex);</span><br><span class="line">		</span><br><span class="line">		return Math.max(maxLeft, maxRight); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>我的测试数组为2，4，6，8</p>
+<h4 id="所得到的输出为："><a href="#所得到的输出为：" class="headerlink" title="所得到的输出为："></a>所得到的输出为：</h4><p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_9/13.png?raw=true" alt=" "></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/算法/">算法</a>, <a class="article-category-link" href="/categories/算法/java/">java</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/快速排序/">快速排序</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
+  
     <article id="post-算法图解第三章笔记：递归-java版"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -744,66 +821,11 @@ var themeMenus = {};
     
 
   
-    <article id="post-解决IntellijIDEA输入法不跟随的问题"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/04/解决IntellijIDEA输入法不跟随的问题/">解决IntellijIDEA输入法不跟随的问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/08/04/解决IntellijIDEA输入法不跟随的问题/" class="article-date">
-	  <time datetime="2019-08-04T12:05:15.000Z" itemprop="datePublished">August 4, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>﻿我在这里介绍一个非常简单的办法，非常好用。我的是2018.1.6，亲测有效，大家也可以试试，用不了一分钟就可以解决问题。 </p>
-<p>找到你idea的安装目录，然后</p>
-<p> <img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_8/1.png?raw=true" alt="image"> </p>
-<p>就是把jre那个目录重命名一下，像我一样在后面加一串数字即可。</p>
-<p>我的弄完以后，效果如下。</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_8/2.png?raw=true" alt="Image"><br>希望对大家有所帮助，谢谢大家。</p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-	<span class="ico-folder"></span>
-    <a class="article-category-link" href="/categories/java/">java</a>
-
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/idea/">idea</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/输入法/">输入法</a></li></ul>
-
-      
-            
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-    
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next</a>
   </nav>
 
 </section>
@@ -903,6 +925,18 @@ var themeMenus = {};
               <div class="widget-entry-summary" style="margin: 0;">
             
 
+              <h6 style="margin: 0;"><a href="/2020/05/04/matlab实现随机攻击网络边-蓄意攻击网络连边-3-“/">matlab实现随机攻击网络边+蓄意攻击网络连边(3)“</a></h6>
+              <span>May 4, 2020</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
               <h6 style="margin: 0;"><a href="/2020/01/02/算法学习笔记1-面向对象的数组/">算法学习笔记1:面向对象的数组</a></h6>
               <span>January 2, 2020</span>
             </div>
@@ -957,18 +991,6 @@ var themeMenus = {};
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/10/06/Veirlog学习记录-4-分频模块-层次化的模块设计/">Veirlog学习记录(4)分频模块+层次化的模块设计</a></h6>
-              <span>October 6, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -978,7 +1000,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Veirlog/">Veirlog</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/matlab/">matlab</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tensorlfow/">tensorlfow</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/云服务器/">云服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/java/">java</a><span class="category-list-count">4</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Veirlog/">Veirlog</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/matlab/">matlab</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tensorlfow/">tensorlfow</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/云服务器/">云服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/java/">java</a><span class="category-list-count">4</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -988,7 +1010,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMD/">AMD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROCm/">ROCm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Veirlog/">Veirlog</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu/">gpu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/idea/">idea</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javac/">javac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java教程/">java教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mono/">mono</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/">socket</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/">tensorflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorlfow/">tensorlfow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win10/">win10</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/串口/">串口</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分查找/">二分查找</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/寄存器/">寄存器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快速排序/">快速排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字频率计/">数字频率计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数码管/">数码管</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数组/">数组</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络节点/">网络节点</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计数器/">计数器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/输入法/">输入法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择排序/">选择排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随机攻击/">随机攻击</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMD/">AMD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROCm/">ROCm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Veirlog/">Veirlog</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu/">gpu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/idea/">idea</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javac/">javac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java教程/">java教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mono/">mono</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/">socket</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/">tensorflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorlfow/">tensorlfow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win10/">win10</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/串口/">串口</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分查找/">二分查找</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/寄存器/">寄存器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快速排序/">快速排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字频率计/">数字频率计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数码管/">数码管</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数组/">数组</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络节点/">网络节点</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络连边/">网络连边</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/蓄意攻击/">蓄意攻击</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计数器/">计数器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/输入法/">输入法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择排序/">选择排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随机攻击/">随机攻击</a><span class="tag-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -998,7 +1020,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AMD/" style="font-size: 10px;">AMD</a> <a href="/tags/FPGA/" style="font-size: 15px;">FPGA</a> <a href="/tags/ROCm/" style="font-size: 10px;">ROCm</a> <a href="/tags/Veirlog/" style="font-size: 17.5px;">Veirlog</a> <a href="/tags/c/" style="font-size: 10px;">c#</a> <a href="/tags/gpu/" style="font-size: 12.5px;">gpu</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javac/" style="font-size: 10px;">javac</a> <a href="/tags/java教程/" style="font-size: 12.5px;">java教程</a> <a href="/tags/matlab/" style="font-size: 12.5px;">matlab</a> <a href="/tags/mono/" style="font-size: 10px;">mono</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/tensorlfow/" style="font-size: 10px;">tensorlfow</a> <a href="/tags/ubuntu/" style="font-size: 12.5px;">ubuntu</a> <a href="/tags/win10/" style="font-size: 10px;">win10</a> <a href="/tags/串口/" style="font-size: 10px;">串口</a> <a href="/tags/二分查找/" style="font-size: 10px;">二分查找</a> <a href="/tags/云服务器/" style="font-size: 12.5px;">云服务器</a> <a href="/tags/寄存器/" style="font-size: 10px;">寄存器</a> <a href="/tags/快速排序/" style="font-size: 10px;">快速排序</a> <a href="/tags/数字频率计/" style="font-size: 10px;">数字频率计</a> <a href="/tags/数码管/" style="font-size: 10px;">数码管</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a> <a href="/tags/网络节点/" style="font-size: 12.5px;">网络节点</a> <a href="/tags/计数器/" style="font-size: 12.5px;">计数器</a> <a href="/tags/输入法/" style="font-size: 10px;">输入法</a> <a href="/tags/选择排序/" style="font-size: 10px;">选择排序</a> <a href="/tags/递归/" style="font-size: 10px;">递归</a> <a href="/tags/阿里云/" style="font-size: 10px;">阿里云</a> <a href="/tags/随机攻击/" style="font-size: 12.5px;">随机攻击</a>
+      <a href="/tags/AMD/" style="font-size: 10px;">AMD</a> <a href="/tags/FPGA/" style="font-size: 16px;">FPGA</a> <a href="/tags/ROCm/" style="font-size: 10px;">ROCm</a> <a href="/tags/Veirlog/" style="font-size: 18px;">Veirlog</a> <a href="/tags/c/" style="font-size: 10px;">c#</a> <a href="/tags/gpu/" style="font-size: 12px;">gpu</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javac/" style="font-size: 10px;">javac</a> <a href="/tags/java教程/" style="font-size: 12px;">java教程</a> <a href="/tags/matlab/" style="font-size: 14px;">matlab</a> <a href="/tags/mono/" style="font-size: 10px;">mono</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/tensorlfow/" style="font-size: 10px;">tensorlfow</a> <a href="/tags/ubuntu/" style="font-size: 12px;">ubuntu</a> <a href="/tags/win10/" style="font-size: 10px;">win10</a> <a href="/tags/串口/" style="font-size: 10px;">串口</a> <a href="/tags/二分查找/" style="font-size: 10px;">二分查找</a> <a href="/tags/云服务器/" style="font-size: 12px;">云服务器</a> <a href="/tags/寄存器/" style="font-size: 10px;">寄存器</a> <a href="/tags/快速排序/" style="font-size: 10px;">快速排序</a> <a href="/tags/数字频率计/" style="font-size: 10px;">数字频率计</a> <a href="/tags/数码管/" style="font-size: 10px;">数码管</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/算法/" style="font-size: 16px;">算法</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a> <a href="/tags/网络节点/" style="font-size: 12px;">网络节点</a> <a href="/tags/网络连边/" style="font-size: 10px;">网络连边</a> <a href="/tags/蓄意攻击/" style="font-size: 10px;">蓄意攻击</a> <a href="/tags/计数器/" style="font-size: 12px;">计数器</a> <a href="/tags/输入法/" style="font-size: 10px;">输入法</a> <a href="/tags/选择排序/" style="font-size: 10px;">选择排序</a> <a href="/tags/递归/" style="font-size: 10px;">递归</a> <a href="/tags/阿里云/" style="font-size: 10px;">阿里云</a> <a href="/tags/随机攻击/" style="font-size: 14px;">随机攻击</a>
     </div>
   </div>
 
@@ -1008,7 +1030,7 @@ var themeMenus = {};
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
