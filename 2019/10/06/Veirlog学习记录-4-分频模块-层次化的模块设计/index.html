@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/2.png?raw=true">
 <meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/3.png?raw=true">
 <meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/4.png?raw=true">
-<meta property="og:updated_time" content="2019-12-30T02:37:23.070Z">
+<meta property="og:updated_time" content="2020-05-20T06:25:54.611Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Veirlog学习记录(4)分频模块+层次化的模块设计">
 <meta name="twitter:description" content="前三篇文章都是单一模块的设计，然后测试是否来完成特定的功能，不过这种方法只能解决一些简单的问题，所以实际中需要层次花的设计。 ​    这次给大家分享的就是一个层次化的设计，移位寄存器模块+分频模块，然后再用顶层文件把它们组合在一起。 ​    寄存器模块： 12345678910111213141516171819module shift1(clk,D,MD,QB);    inpu">
@@ -203,9 +203,9 @@ var themeMenus = {};
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">module top(</span><br><span class="line">    input clk,</span><br><span class="line">    input rst,</span><br><span class="line">    input [7:0] D,</span><br><span class="line">    input [1:0] MD,</span><br><span class="line">    output [7:0] QB);</span><br><span class="line">    </span><br><span class="line">    wire a; //这个a就是把分频模块输出的时钟信号接入到寄存器模块中</span><br><span class="line">    div u1 (rst,clk,a); //把模块和顶层连接起来，子模块名字要和之前起的一致</span><br><span class="line">    shift1 u2 (a,D,MD,QB);//要注意：这里输入输出端的排布顺序要和在子模块写的顺序一致，否则就会报错。</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意：</strong><br><strong>测试子模块时，比如寄存器模块，那么写完这个模块时，就应该编译，然后写测试文件直接就测试，不要先等写完顶层模块再测试，否则系统会默认测试的是顶层文件，可能会导致没有任何输出产生的情况。</strong></p>
-<p>​    如果没有什么问题，你写顶层文件，然后保存，会出现如下的样子：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/2.png?raw=true" alt=" "></p>
-<p>​    表明顶层文件和子模块联系成功，编译没有错误之后，就可以进行下一步了。顶层模块也可以不用测试，如果不写测试文件的话，可以选择 综合下面的：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/3.png?raw=true" alt=" "><br>    然后就可以看形成的逻辑图，再比对是否哪里有问题，按照以上程序设计会生成以下的图：</p>
-<h4 id><a href="#" class="headerlink" title></a><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/4.png?raw=true" alt=" "></h4><p><strong>移位寄存器模块如何编写测试文件，可以参考如下链接：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/details/88851235" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/details/88851235</a></p>
+<p>​    如果没有什么问题，你写顶层文件，然后保存，会出现如下的样子：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/2.png?raw=true" alt></p>
+<p>​    表明顶层文件和子模块联系成功，编译没有错误之后，就可以进行下一步了。顶层模块也可以不用测试，如果不写测试文件的话，可以选择 综合下面的：<br><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/3.png?raw=true" alt><br>​    然后就可以看形成的逻辑图，再比对是否哪里有问题，按照以上程序设计会生成以下的图：</p>
+<h4 id><a href="#" class="headerlink" title></a><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/4.png?raw=true" alt></h4><p><strong>移位寄存器模块如何编写测试文件，可以参考如下链接：</strong><br><a href="https://blog.csdn.net/weixin_43877139/article/details/88851235" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43877139/article/details/88851235</a></p>
 <p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://xuxing0430.github.io/categories/Veirlog/" target="_blank" rel="noopener">Verilog学习</a></p>
 
       
