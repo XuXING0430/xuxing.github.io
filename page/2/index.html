@@ -153,6 +153,76 @@ var themeMenus = {};
         
           <section id="main">
   
+    <article id="post-Veirlog学习记录-3-移位寄存器-左循环，右循环-的实现"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/09/19/Veirlog学习记录-3-移位寄存器-左循环，右循环-的实现/">Veirlog学习记录(3)--移位寄存器(左循环，右循环)的实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2019/09/19/Veirlog学习记录-3-移位寄存器-左循环，右循环-的实现/" class="article-date">
+	  <time datetime="2019-09-19T02:16:39.000Z" itemprop="datePublished">September 19, 2019</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>﻿移位寄存器的设计：<br>    有三个模式：</p>
+<ul>
+<li><p>左循环</p>
+</li>
+<li><p>右循环</p>
+</li>
+<li><p>加载预置的数</p>
+</li>
+<li><p><strong>具体功能可以根据需要对程序做出一些修改即可</strong></p>
+<p>代码如下：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">module shift1(clk,D,MD,QB);</span><br><span class="line"></span><br><span class="line">    input clk;  //时钟信号</span><br><span class="line">    input [7:0] D;  //预置数，可以在测试文件中预置，或者在板子上选取</span><br><span class="line">    input [1:0] MD;  //模式选择数值</span><br><span class="line">    output [7:0] QB;  //输出的数值</span><br><span class="line">    reg [7:0] REG;  //定义寄存器类型</span><br><span class="line">       </span><br><span class="line">    always @ ( posedge clk ) begin  //对时钟信号上升沿敏感</span><br><span class="line">        case (MD)   //根据MD的数值，选择模式</span><br><span class="line">            2&apos;b01: begin REG[0] &lt;= REG[7] ; REG[7:1] &lt;= REG[6:0]; end //循环左移</span><br><span class="line">            2&apos;b10: begin REG[7] &lt;= REG[0] ; REG[6:0] &lt;= REG[7:1]; end //循环右移</span><br><span class="line">            2&apos;b00: begin REG &lt;= D; end  //加载预置的数值</span><br><span class="line">      </span><br><span class="line">       endcase</span><br><span class="line">       end</span><br><span class="line">       assign QB[7:0] = REG[7:0];   //把REG中的数值赋给QB</span><br><span class="line">          </span><br><span class="line">       endmodule</span><br></pre></td></tr></table></figure>
+
+<p>测试文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">module shift1_tb();</span><br><span class="line">    reg clk;</span><br><span class="line">    reg [7:0] D;</span><br><span class="line">    reg [1:0] MD;</span><br><span class="line">    wire [7:0] QB;  //输出</span><br><span class="line">              </span><br><span class="line">   initial </span><br><span class="line">        begin  //初始化</span><br><span class="line">        clk = 0;</span><br><span class="line">        D = 8&apos;b11110000;  //初始化待移数值（这样赋值只是为了最后好观察波形） </span><br><span class="line">        MD = 2&apos;b00;  //以置数模式开始</span><br><span class="line">        end </span><br><span class="line">        </span><br><span class="line">         always #10 clk = ~clk;  //时钟信号</span><br><span class="line">        always #100 MD = MD+1；//循环改变模式，</span><br><span class="line"> </span><br><span class="line">     shift1 test( .clk(clk),</span><br><span class="line">                     .D(D),</span><br><span class="line">                     .MD(MD),</span><br><span class="line">                     .QB(QB)</span><br><span class="line">                  );</span><br><span class="line">       </span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2019_10/5.png?raw=true" alt></p>
+<p>这里图形没有从一开始截取，而是选择能看到三个模式效果的时间段，MD=0时，一直在加载预置数，输出等于D 11110000.MD=1时，开始循环左移。MD=2时，开始循环右移。</p>
+<p><strong>基本的设计就是这样子，可以在它的基础上进行改进，以达到大家需要的功能，比如在shift1中的case加几个模式。D的值也可以随便赋值。</strong></p>
+<p><strong>我也写了几篇关于Veirlog的文章，感兴趣的同学可以去看看。该模块链接如下：</strong><br><a href="https://xuxing0430.github.io/categories/Veirlog/" target="_blank" rel="noopener">Verilog学习</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/Veirlog/">Veirlog</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FPGA/">FPGA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Veirlog/">Veirlog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/寄存器/">寄存器</a></li></ul>
+
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
+  
     <article id="post-Veirlog学习记录-2-十-多-进制可加可减计数器的实现"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
@@ -758,59 +828,6 @@ var themeMenus = {};
     
 
   
-    <article id="post-解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/06/解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误/">解决java.lang.UnsatisfiedLinkError：java.library.path中没有rxtxSerial加载时抛出gnu.io.RXTXCommDriver错误</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	Posted on <a href="/2019/08/06/解决java-lang-UnsatisfiedLinkError：java-library-path中没有rxtxSerial加载时抛出gnu-io-RXTXCommDriver错误/" class="article-date">
-	  <time datetime="2019-08-06T00:06:45.000Z" itemprop="datePublished">August 6, 2019</time>
-	</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>﻿   在使用Java接收串口数据的时候，需要导入有关的jar包和配置文件。<br>如果报这个错误，是因为jar包和配置文件没有放好的原因。<br><em>解决</em>：要把.rxtxParallel.dll、rxtxSerial.dll拷贝到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\develop\Java\jdk1.7.0_72\bin</span><br></pre></td></tr></table></figure>
-
-<p>​        <strong>注意：是jdk下面的bin文件夹，不是jre</strong><br>  需要什么版本的配置文件，看你的JDK，如果是32位的就下载32位的，如果是64位的就下载64位的，一定要对应好，否则也会报错。下载地址如下：<br><a href="http://rxtx.qbang.org/wiki/index.php/Download" target="_blank" rel="noopener">官网下载地址</a></p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-	<span class="ico-folder"></span>
-    <a class="article-category-link" href="/categories/java/">java</a>
-
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java教程/">java教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/串口/">串口</a></li></ul>
-
-      
-            
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-    
-
-  
 
 
   <nav id="page-nav">
@@ -915,6 +932,18 @@ var themeMenus = {};
               <div class="widget-entry-summary" style="margin: 0;">
             
 
+              <h6 style="margin: 0;"><a href="/2020/05/24/如何对复杂网络建模所需要的数据进行预处理/">如何对复杂网络建模所需要的数据进行预处理</a></h6>
+              <span>May 24, 2020</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
               <h6 style="margin: 0;"><a href="/2020/05/19/如何建立实体复杂网络网络的Space-L模型/">如何建立复杂网络实体网络的Space L模型</a></h6>
               <span>May 19, 2020</span>
             </div>
@@ -969,18 +998,6 @@ var themeMenus = {};
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/12/20/matlab实现随机攻击网络节点-蓄意攻击网络节点-2/">matlab实现随机攻击网络节点+蓄意攻击网络节点(2)</a></h6>
-              <span>December 20, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -990,7 +1007,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Veirlog/">Veirlog</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tensorlfow/">tensorlfow</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/云服务器/">云服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/复杂网络/">复杂网络</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/java/">java</a><span class="category-list-count">4</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Veirlog/">Veirlog</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tensorlfow/">tensorlfow</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/云服务器/">云服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/复杂网络/">复杂网络</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/java/">java</a><span class="category-list-count">4</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1000,7 +1017,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMD/">AMD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gephi/">Gephi</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROCm/">ROCm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Space-L/">Space L</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Veirlog/">Veirlog</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu/">gpu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/idea/">idea</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javac/">javac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java教程/">java教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mono/">mono</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/">tensorflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorlfow/">tensorlfow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win10/">win10</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/串口/">串口</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分查找/">二分查找</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实体网络/">实体网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/寄存器/">寄存器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/建模/">建模</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快速排序/">快速排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字频率计/">数字频率计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数码管/">数码管</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数组/">数组</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络节点/">网络节点</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络连边/">网络连边</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/蓄意攻击/">蓄意攻击</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计数器/">计数器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/输入法/">输入法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择排序/">选择排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随机攻击/">随机攻击</a><span class="tag-list-count">3</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AMD/">AMD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gephi/">Gephi</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROCm/">ROCm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Space-L/">Space L</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Veirlog/">Veirlog</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gpu/">gpu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/idea/">idea</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javac/">javac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java教程/">java教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/matlab/">matlab</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mono/">mono</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/">tensorflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorlfow/">tensorlfow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/">ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win10/">win10</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/串口/">串口</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二分查找/">二分查找</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实体网络/">实体网络</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/寄存器/">寄存器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/建模/">建模</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快速排序/">快速排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数字频率计/">数字频率计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据预处理/">数据预处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数码管/">数码管</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数组/">数组</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络节点/">网络节点</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络连边/">网络连边</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/蓄意攻击/">蓄意攻击</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计数器/">计数器</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/输入法/">输入法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择排序/">选择排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/递归/">递归</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随机攻击/">随机攻击</a><span class="tag-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -1010,7 +1027,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AMD/" style="font-size: 10px;">AMD</a> <a href="/tags/FPGA/" style="font-size: 16.67px;">FPGA</a> <a href="/tags/Gephi/" style="font-size: 10px;">Gephi</a> <a href="/tags/ROCm/" style="font-size: 10px;">ROCm</a> <a href="/tags/Space-L/" style="font-size: 10px;">Space L</a> <a href="/tags/Veirlog/" style="font-size: 18.33px;">Veirlog</a> <a href="/tags/c/" style="font-size: 10px;">c#</a> <a href="/tags/gpu/" style="font-size: 11.67px;">gpu</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javac/" style="font-size: 10px;">javac</a> <a href="/tags/java教程/" style="font-size: 11.67px;">java教程</a> <a href="/tags/matlab/" style="font-size: 15px;">matlab</a> <a href="/tags/mono/" style="font-size: 10px;">mono</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/tensorlfow/" style="font-size: 10px;">tensorlfow</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/win10/" style="font-size: 10px;">win10</a> <a href="/tags/串口/" style="font-size: 10px;">串口</a> <a href="/tags/二分查找/" style="font-size: 10px;">二分查找</a> <a href="/tags/云服务器/" style="font-size: 10px;">云服务器</a> <a href="/tags/实体网络/" style="font-size: 10px;">实体网络</a> <a href="/tags/寄存器/" style="font-size: 10px;">寄存器</a> <a href="/tags/建模/" style="font-size: 10px;">建模</a> <a href="/tags/快速排序/" style="font-size: 10px;">快速排序</a> <a href="/tags/数字频率计/" style="font-size: 10px;">数字频率计</a> <a href="/tags/数码管/" style="font-size: 10px;">数码管</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/算法/" style="font-size: 16.67px;">算法</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a> <a href="/tags/网络节点/" style="font-size: 11.67px;">网络节点</a> <a href="/tags/网络连边/" style="font-size: 10px;">网络连边</a> <a href="/tags/蓄意攻击/" style="font-size: 10px;">蓄意攻击</a> <a href="/tags/计数器/" style="font-size: 11.67px;">计数器</a> <a href="/tags/输入法/" style="font-size: 10px;">输入法</a> <a href="/tags/选择排序/" style="font-size: 10px;">选择排序</a> <a href="/tags/递归/" style="font-size: 10px;">递归</a> <a href="/tags/随机攻击/" style="font-size: 13.33px;">随机攻击</a>
+      <a href="/tags/AMD/" style="font-size: 10px;">AMD</a> <a href="/tags/FPGA/" style="font-size: 16px;">FPGA</a> <a href="/tags/Gephi/" style="font-size: 10px;">Gephi</a> <a href="/tags/ROCm/" style="font-size: 10px;">ROCm</a> <a href="/tags/Space-L/" style="font-size: 12px;">Space L</a> <a href="/tags/Veirlog/" style="font-size: 18px;">Veirlog</a> <a href="/tags/c/" style="font-size: 10px;">c#</a> <a href="/tags/gpu/" style="font-size: 12px;">gpu</a> <a href="/tags/idea/" style="font-size: 10px;">idea</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javac/" style="font-size: 10px;">javac</a> <a href="/tags/java教程/" style="font-size: 12px;">java教程</a> <a href="/tags/matlab/" style="font-size: 16px;">matlab</a> <a href="/tags/mono/" style="font-size: 10px;">mono</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/tensorlfow/" style="font-size: 10px;">tensorlfow</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/win10/" style="font-size: 10px;">win10</a> <a href="/tags/串口/" style="font-size: 10px;">串口</a> <a href="/tags/二分查找/" style="font-size: 10px;">二分查找</a> <a href="/tags/云服务器/" style="font-size: 10px;">云服务器</a> <a href="/tags/实体网络/" style="font-size: 12px;">实体网络</a> <a href="/tags/寄存器/" style="font-size: 10px;">寄存器</a> <a href="/tags/建模/" style="font-size: 12px;">建模</a> <a href="/tags/快速排序/" style="font-size: 10px;">快速排序</a> <a href="/tags/数字频率计/" style="font-size: 10px;">数字频率计</a> <a href="/tags/数据预处理/" style="font-size: 10px;">数据预处理</a> <a href="/tags/数码管/" style="font-size: 10px;">数码管</a> <a href="/tags/数组/" style="font-size: 10px;">数组</a> <a href="/tags/算法/" style="font-size: 16px;">算法</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a> <a href="/tags/网络节点/" style="font-size: 12px;">网络节点</a> <a href="/tags/网络连边/" style="font-size: 10px;">网络连边</a> <a href="/tags/蓄意攻击/" style="font-size: 10px;">蓄意攻击</a> <a href="/tags/计数器/" style="font-size: 12px;">计数器</a> <a href="/tags/输入法/" style="font-size: 10px;">输入法</a> <a href="/tags/选择排序/" style="font-size: 10px;">选择排序</a> <a href="/tags/递归/" style="font-size: 10px;">递归</a> <a href="/tags/随机攻击/" style="font-size: 14px;">随机攻击</a>
     </div>
   </div>
 
@@ -1020,7 +1037,7 @@ var themeMenus = {};
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
