@@ -13,28 +13,26 @@
   <!-- PACE Progress Bar START -->
 
   
-  <title>解决spring boot入门遇到的一些问题 | XuXing&#39;s blog</title>
+  <title>matlab运行速度优化 | XuXing&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="javaSpring Boot">
+  <meta name="keywords" content="matlab优化">
   
   
   
   
-  <meta name="description" content="最近在Spring Boot入门学习中遇到了一些问题： 1: Your ApplicationContext is unlikely to start due to a @ComponentScan of the default package需要把所有的代码移至其自己的包中。 如图所示：将所有的.java文件移至src / main / java / com / example中，并且在每个文件">
-<meta name="keywords" content="java,Spring Boot">
+  <meta name="description" content="当我们需要处理较大数据量，或者程序中有一些较为复杂的逻辑。这个时候就需要对程序进行一定的优化，以下是一些小技巧与例子的展示。 硬件方面 1.提升电脑的配置 2.在Matlab软件中设置，分配更多的运行内存 代码方面：  数据格式double转成single 123456789101112131415161718A_length = length(A);numbers = 50;for k = 1:">
+<meta name="keywords" content="matlab,优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解决Spring Boot入门遇到的一些问题">
-<meta property="og:url" content="http://yoursite.com/2020/07/27/解决Spring-Boot入门遇到的一些问题/index.html">
+<meta property="og:title" content="matlab运行速度优化">
+<meta property="og:url" content="http://yoursite.com/2020/08/01/matlab运行速度优化/index.html">
 <meta property="og:site_name" content="XuXing&#39;s blog">
-<meta property="og:description" content="最近在Spring Boot入门学习中遇到了一些问题： 1: Your ApplicationContext is unlikely to start due to a @ComponentScan of the default package需要把所有的代码移至其自己的包中。 如图所示：将所有的.java文件移至src / main / java / com / example中，并且在每个文件">
+<meta property="og:description" content="当我们需要处理较大数据量，或者程序中有一些较为复杂的逻辑。这个时候就需要对程序进行一定的优化，以下是一些小技巧与例子的展示。 硬件方面 1.提升电脑的配置 2.在Matlab软件中设置，分配更多的运行内存 代码方面：  数据格式double转成single 123456789101112131415161718A_length = length(A);numbers = 50;for k = 1:">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2020_7/2.png?raw=true">
-<meta property="og:updated_time" content="2020-07-27T00:47:16.947Z">
+<meta property="og:updated_time" content="2020-08-01T12:28:33.941Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解决Spring Boot入门遇到的一些问题">
-<meta name="twitter:description" content="最近在Spring Boot入门学习中遇到了一些问题： 1: Your ApplicationContext is unlikely to start due to a @ComponentScan of the default package需要把所有的代码移至其自己的包中。 如图所示：将所有的.java文件移至src / main / java / com / example中，并且在每个文件">
-<meta name="twitter:image" content="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2020_7/2.png?raw=true">
+<meta name="twitter:title" content="matlab运行速度优化">
+<meta name="twitter:description" content="当我们需要处理较大数据量，或者程序中有一些较为复杂的逻辑。这个时候就需要对程序进行一定的优化，以下是一些小技巧与例子的展示。 硬件方面 1.提升电脑的配置 2.在Matlab软件中设置，分配更多的运行内存 代码方面：  数据格式double转成single 123456789101112131415161718A_length = length(A);numbers = 50;for k = 1:">
   
     <link rel="alternate" href="/atom.xml" title="XuXing&#39;s blog" type="application/atom+xml">
   
@@ -160,7 +158,7 @@ var themeMenus = {};
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-解决Spring-Boot入门遇到的一些问题" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-matlab运行速度优化" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -168,7 +166,7 @@ var themeMenus = {};
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      解决Spring Boot入门遇到的一些问题
+      matlab运行速度优化
     </h1>
   
 
@@ -176,8 +174,8 @@ var themeMenus = {};
     
     <div class="article-meta">
       
-	Posted on <a href="/2020/07/27/解决Spring-Boot入门遇到的一些问题/" class="article-date">
-	  <time datetime="2020-07-27T00:13:51.000Z" itemprop="datePublished">July 27, 2020</time>
+	Posted on <a href="/2020/08/01/matlab运行速度优化/" class="article-date">
+	  <time datetime="2020-08-01T12:26:53.000Z" itemprop="datePublished">August 1, 2020</time>
 	</a>
 
       
@@ -188,22 +186,52 @@ var themeMenus = {};
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在<a href="http://www.spring4all.com/article/266" target="_blank" rel="noopener">Spring Boot入门学习</a>中遇到了一些问题：</p>
-<h4 id="1-Your-ApplicationContext-is-unlikely-to-start-due-to-a-ComponentScan-of-the-default-package"><a href="#1-Your-ApplicationContext-is-unlikely-to-start-due-to-a-ComponentScan-of-the-default-package" class="headerlink" title="1: Your ApplicationContext is unlikely to start due to a @ComponentScan of the default package"></a>1: Your ApplicationContext is unlikely to start due to a @ComponentScan of the default package</h4><p>需要把所有的代码移至其自己的包中。 如图所示：将所有的.java文件移至src / main / java / com / example中，并且在每个文件的顶部添加com.example包。我一开始就是偷懒了，所以报了错。</p>
-<p><img src="https://github.com/XuXING0430/xuxing0430.github.io/blob/master/image/2020_7/2.png?raw=true" alt="示例"></p>
-<h4 id="2：This-application-has-no-explicit-mapping-for-error-so-you-are-seeing-this-as-a-fallback"><a href="#2：This-application-has-no-explicit-mapping-for-error-so-you-are-seeing-this-as-a-fallback" class="headerlink" title="2：This application has no explicit mapping for /error, so you are seeing this as a fallback."></a>2：This application has no explicit mapping for /error, so you are seeing this as a fallback.</h4><p>这个问题就是：<strong>Application</strong>启动类的位置不对。需要要将Application类放在最外侧,即包含所有子包（如上图所示）</p>
-<p><strong>原因</strong>:Spring Boot会自动加载启动类所在包下及其子包下的所有组件.</p>
+        <p>当我们需要处理较大数据量，或者程序中有一些较为复杂的逻辑。这个时候就需要对程序进行一定的优化，以下是一些小技巧与例子的展示。</p>
+<p>硬件方面</p>
+<p>1.提升电脑的配置</p>
+<p>2.在Matlab软件中设置，分配更多的运行内存</p>
+<p>代码方面：</p>
+<ol>
+<li><p>数据格式double转成single</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">A_length = length(A);</span><br><span class="line">numbers = 50;</span><br><span class="line">for k = 1:numbers</span><br><span class="line">    for i = 1:A_length</span><br><span class="line">        for j = 1:A_length</span><br><span class="line">            A(i,j) = A(i,j)*rand; </span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">矩阵维度：1000*1000</span><br><span class="line">double:时间已过 1.700172 秒</span><br><span class="line">single:时间已过 1.546184 秒。</span><br><span class="line"></span><br><span class="line">矩阵维度：5000*5000</span><br><span class="line">double:时间已过 50.057981 秒。</span><br><span class="line">single:时间已过 45.139951 秒。</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>避免for循环</p>
+<p>code1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">y =[];</span><br><span class="line">number = 100000;</span><br><span class="line">for i =1:number</span><br><span class="line">   y = [y sin(i)]; </span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% 时间已过 2.749184 秒。</span><br></pre></td></tr></table></figure>
+
+<p>code2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">y =[];</span><br><span class="line">number = 100000;</span><br><span class="line">y = sin([1:1:number]); </span><br><span class="line">时间已过 0.001548 秒。</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><p>预先声明变量长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">number = 1000; %5000</span><br><span class="line">%%新建一个矩阵</span><br><span class="line">%这一句就是原先声明变量的长度</span><br><span class="line">A = zeros([number number]);</span><br><span class="line"></span><br><span class="line">for i =1:number</span><br><span class="line">   for j =1:number</span><br><span class="line">      if rand &gt;0.5</span><br><span class="line">       A(i,j) = 1;</span><br><span class="line">      end</span><br><span class="line">   end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">1000*1000</span><br><span class="line">未声明：时间已过 0.237895 秒。</span><br><span class="line">已声明：时间已过 0.041581 秒。</span><br><span class="line"></span><br><span class="line">5000*5000</span><br><span class="line">未声明：时间已过 41.466290 秒。</span><br><span class="line">已声明：时间已过 0.962321 秒。</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<p>经过测试，可以看到预先分配数组的大小对运行速度的提升效果是最好的，特别是当数据量越大的时候，效果也就越好。</p>
+<p>希望对大家有所帮助。</p>
 
       
     </div>
     <footer class="entry-meta entry-footer">
       
 	<span class="ico-folder"></span>
-    <a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a>, <a class="article-category-link" href="/categories/Spring-Boot/java/">java</a>
+    <a class="article-category-link" href="/categories/matlab/">matlab</a>
 
       
   <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/matlab/">matlab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/优化/">优化</a></li></ul>
 
       
         <div id="donation_div"></div>
@@ -251,19 +279,10 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2020/08/01/matlab运行速度优化/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          matlab运行速度优化
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/23/解决centos7下报错：net-http-TLS-handshake-timeout/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/07/27/解决Spring-Boot入门遇到的一些问题/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">解决centos7下报错：net/http: TLS handshake timeout</div>
+      <div class="article-nav-title">解决Spring Boot入门遇到的一些问题</div>
     </a>
   
 </nav>
@@ -277,7 +296,7 @@ var a = new Donate({
     <div id="toc" class="toc-article" style="overflow-y: scroll; max-width: 28%;">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Your-ApplicationContext-is-unlikely-to-start-due-to-a-ComponentScan-of-the-default-package"><span class="nav-number">1.</span> <span class="nav-text">1: Your ApplicationContext is unlikely to start due to a @ComponentScan of the default package</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2：This-application-has-no-explicit-mapping-for-error-so-you-are-seeing-this-as-a-fallback"><span class="nav-number">2.</span> <span class="nav-text">2：This application has no explicit mapping for /error, so you are seeing this as a fallback.</span></a></li></ol>
+      <ol class="nav">None</ol>
     
     </div>
   </aside>
